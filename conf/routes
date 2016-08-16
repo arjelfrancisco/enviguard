@@ -1,0 +1,59 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file              			controllers.Assets.versioned(path="/public", file: Asset)
+
+#images test
+GET		/images/*file						controllers.MapController.getImage(file)
+
+#show map page
+GET 	/showMap								controllers.MapController.index
+
+# Map Plotting Routes
+#get all routes
+GET		/getAllRoutes						controllers.MapController.getAllRoutes
+#get distinct patrol ids
+GET		/getPatrolIds						controllers.MapController.getDistinctPatrols
+#get routes by id
+GET		/getRoutesById/:id					controllers.MapController.getRoutesById(id: Long)
+#get routes by patroller name
+GET		/getRoutesByPatrollerName/:name		controllers.MapController.getRoutesByPatrollerName(name: String)
+#get routes by patrol name
+GET		/getRoutesByPatrolName/:name		controllers.MapController.getRoutesByPatrolName(name: String)
+#get routes by date range
+GET		/getRoutesByDate/:start/:end		controllers.MapController.getRoutesByDate(start: String, end: String)
+#get routes by status
+GET 	/getRoutesByStatus/:status			controllers.MapController.getRoutesByStatus(status: String)
+#get routes by region
+GET		/getRoutesByRegion/:region			controllers.MapController.getRoutesByRegion(region: String)
+#get patrol by id
+GET		/getPatrolById/:id					controllers.MapController.getPatrolById(id: Integer)
+#get patroller by patrol id
+GET		/getPatrollersByPatrolId/:id		controllers.MapController.getPatrollersByPatrolId(id: Integer)
+#get observations by patrol id
+GET		/getObservationsByPatrolId/:id		controllers.MapController.getObservationsByPatrolId(id: Long)
+#get observations by id
+GET		/getObservationByObsId/:id			controllers.MapController.getObservationByObsId(id: Long)
+#get distinct regions
+GET		/getDistinctRegions					controllers.MapController.getDistinctRegions
+
+#get reports
+GET		/generateReports/:observation/:type		controllers.ReportsController.getReports(observation: String, type: String)
+
+
+#navigation
+GET		/patrolRoutes						controllers.MapController.index
+GET		/patrolReports						controllers.ReportsController.index
+
+#images
+GET		/getImageLists/:id					controllers.MapController.getImageLists(id: Long)
+GET		/showImage/:id				controllers.MapController.showImage(id: Long)
+
+
+#WS Controller
+POST    /actions/observations/:id/images    controllers.WSController.addObservationImage(id:Long)
+POST    /actions/patrols                    controllers.WSController.addPatrol()
+GET     /actions/syncMobileData      		controllers.WSController.synchronizeMobileData()
+GET     /actions/clearPatrolData         	controllers.WSController.clearPatrolData()

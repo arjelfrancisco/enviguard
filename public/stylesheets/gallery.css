@@ -1,0 +1,64 @@
+.card-body.card-padding {
+  padding: 30px 33px;
+}
+
+.card-body.card-padding-sm {
+  padding: 15px;
+}
+
+.card-body > .btn-float {
+  bottom: 30px;
+  right: 30px;
+}
+
+.lightbox .lightbox-item > img {
+  width: 100%;
+  border-radius: 2px;
+}
+
+.lightbox .lightbox-item:hover {
+  cursor: pointer;
+  opacity: 0.85;
+  filter: alpha(opacity=85);
+}
+
+.lightbox [data-src]:before,
+.lightbox [data-src]:after {
+  content: " ";
+  display: table;
+}
+
+.lightbox [data-src]:after {
+  clear: both;
+}
+
+.lightbox [data-src]:before,
+.lightbox [data-src]:after {
+  content: " ";
+  display: table;
+}
+
+.lightbox [data-src]:after {
+  clear: both;
+}
+
+.lightbox .lightbox-item:not(.p-item) {
+  position: relative;
+}
+
+.photos {
+  margin: -10px 0 0;
+}
+
+.photos .lightbox {
+  margin: 0 -8px;
+}
+
+.photos:not(.p-timeline) [data-src] {
+  padding: 3px;
+  -webkit-transition: all;
+  -o-transition: all;
+  transition: all;
+  -webkit-transition-duration: 150ms;
+  transition-duration: 150ms;
+}

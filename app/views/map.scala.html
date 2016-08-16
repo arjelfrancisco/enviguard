@@ -1,0 +1,153 @@
+	<div class="row" >
+			<div class="col-sm-6" style="position:relative; width: 80%;">
+
+		<div class="panel panel-success panel-dark" style="position:relative; width: 100%;" >
+		<div class="panel-heading">
+		<span class="panel-title"><i class="panel-title-icon fa fa-map-marker"></i>Patrol Routes</span>
+		</div> <!-- / .panel-heading -->
+		<div class="panel-body" style="position:relative;height: 500px; width: 100%;">
+			
+			<div class="widget-maps" id="map" style="position:relative;height: 100%; width: 100%;">
+			
+			</div>
+			</div> <!-- / .panel-body -->
+		</div> <!-- / .panel -->
+		
+	</div>
+
+	<div class="panel panel-success panel-dark" style="float:right;position:relative;height: 100%; width: 20%;" >
+		<div class="panel-heading">
+		<span class="panel-title"><i class="panel-title-icon fa fa-filter"></i>Filters</span>
+		</div> <!-- / .panel-heading -->
+		<div class="panel-body" style="position:relative;height: 500px; width: 100%;">
+			
+			<div class="widget-maps" id="" style="position:relative;height: 100%; width: 100%;">
+			
+			
+	<h5>View:</h5>
+	<select id="viewCategory" class="btn btn-success" style="width:100%;">
+	<option value = "">-- Select --</option>
+	<option value = "all"> All </option>
+	<option value = "patrolId"> Patrol ID </option>
+	<option value = "patrollerName"> Patroller Name </option>
+	<option value = "date"> Date(range) </option> 
+	<option value = "region"> Regions </option>
+	<!--<option value = "status"> Status </option>-->
+	<!--<option value = "teamId"> Team ID </option>-->
+	</select><br><br>
+	
+	
+	<div id="divPatrolId">
+	Patrol ID: 
+	<input type = "text" id="txtPatrolID"/><br>
+	</div>
+	
+	<div id="divPatrollerName">
+	Patroller Name: 
+	<input type = "text" id="txtPatrollerName"/><br>
+	</div>
+	
+	<div id="divDateRange">
+	<script>
+					init.push(function () {
+						var options = {
+							todayBtn: "linked",
+							orientation: $('body').hasClass('right-to-left') ? "auto right" : 'auto auto'
+						}
+						$('#bs-datepicker-example').datepicker(options);
+
+						$('#bs-datepicker-component').datepicker();
+
+						var options2 = {
+							orientation: $('body').hasClass('right-to-left') ? "auto right" : 'auto auto'
+						}
+						$('#bs-datepicker-range').datepicker(options2);
+
+						$('#bs-datepicker-inline').datepicker();
+					});
+				</script>
+
+	<div class="input-daterange input-group" id="bs-datepicker-range">
+	<input id="txtDateFrom" type="text" class="input-sm form-control" name="start" placeholder="Start date">
+	<span class="input-group-addon">to</span>
+	<input id="txtDateTo" type="text" class="input-sm form-control" name="end" placeholder="End date">
+	</div>
+
+	
+	
+	</div>
+	
+	<div id="divPatrolStatus">
+	<select id="viewPatrolStatus" style="width: 40%;">
+	<option value = "">-- Select --</option>
+	<option value = "ongoing"> On Going </option>
+	<option value = "sent"> Sent</option>
+	</select>
+	</div>
+	
+	<div id="divRegions">
+	
+	
+	</div>
+	
+	
+	<br><br>
+	<input style="float: right;"  class="btn btn-success btn-rounded" type = "button" id="btnClear" value="Clear"/>
+	
+	<input  class="btn btn-success btn-rounded" type = "button" id="btnView" value="View"/>
+	
+	<input id="btnTest" type="button" value="TEST" />
+	<div id="patrolDetails">
+	
+	</div>
+    </div>
+			
+			</div> <!-- / .panel-body -->
+		</div> <!-- / .panel -->
+</div>
+</div>
+	
+			
+	<div id="divInfo" class="col-sm-6" style="position:relative; width: 100%;">
+
+		<div class="panel panel-success panel-dark" style="position:relative; width: 100%;" >
+			<div class="panel-heading">
+			<span class="panel-title"><i class="panel-title-icon fa  fa-info-circle"></i>Informations</span>
+			</div> <!-- / .panel-heading -->
+			<div class="panel-body" style="position:relative;height: 500px; width: 100%;">
+			
+			<div   class="panel colourable" style="position:relative;height: 100%; width:28%;float:left;">
+					<div id="info_div" class="panel-body">
+						Panel body content
+					</div>
+				</div>
+	
+			<div class="table" id="table_div" style="position:relative;height: 100%; width: 70%;float: right;">
+				
+				</div>
+			</div> <!-- / .panel-body -->
+		</div> <!-- / .panel -->
+
+	</div>
+	
+	</div>
+<!-- Modal -->
+				<div id="myModal" class="modal fade" tabindex="-1" role="dialog" style="display: none;">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+								<h4 class="modal-title" id="myModalLabel">Observation Information</h4>
+								
+							</div>
+							<div id="infoContent" class="modal-body">
+							<!-- info content -->
+							</div> <!-- / .modal-body -->
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default" data-dismiss="modal">Okay</button>
+							</div>
+						</div> <!-- / .modal-content -->
+					</div> <!-- / .modal-dialog -->
+				</div> <!-- /.modal -->
+				<!-- / Modal -->
+			
