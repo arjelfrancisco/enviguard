@@ -11,6 +11,7 @@ import models.OtherObservation;
 import models.PatrolObservationImage;
 import models.Reports;
 import models.ThreatObservation;
+import models.ThreatType;
 
 
 public interface ObservationDao {

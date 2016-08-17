@@ -54,13 +54,6 @@ public class PatrolLocation {
 		this.timestamp = timestamp;
 	}
 	
-	@Override
-	public String toString() {
-		return "PatrolLocation [id=" + id + ", patrolId=" + patrolId + ", lat="
-				+ lat + ", lng=" + lng + ", timestamp=" + timestamp
-				+ ", region=" + region + "]";
-	}
-	
 	/*
 	public PatrolLocation(int id, int patrolId, double lat, double lng, String timestamp) {
 		super();

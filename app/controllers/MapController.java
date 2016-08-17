@@ -23,7 +23,6 @@ import models.dao.impl.PatrolDaoImpl;
 import models.dao.impl.PatrollerDaoImpl;
 import controllers.DatabaseConnection.DatabaseUtilities;
 import enums.ObservationTypeEnum;
-import play.Logger;
 import play.mvc.*;
 import play.libs.Json;
 import views.html.*;
@@ -102,8 +101,7 @@ public class MapController extends Controller {
 		 List<PatrolLocation> locations = new ArrayList<PatrolLocation>();
 			
 		 locations = locationDao.getRoutesById(id);
-		 
-		 Logger.info("|GET ROUTES BY ID| Locations: " + locations.toString());
+			 
 			 
 		 return ok(Json.toJson(locations));
 	 }
@@ -123,8 +121,7 @@ public class MapController extends Controller {
 		 List<PatrolLocation> locations = new ArrayList<PatrolLocation>();
 			
 		 locations = locationDao.getRoutesByPatrolName(name);
-			
-		 Logger.info("|GET ROUTES BY PATROL NAME| Locations: " + locations.toString());
+			 
 			 
 		 return ok(Json.toJson(locations));
 	 }

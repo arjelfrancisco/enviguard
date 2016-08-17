@@ -346,8 +346,6 @@ function groupByRegion(routes,region) {
 }
 */
 function manageRoutes(data){
-
-	console.log("Manage Routes Data: " + JSON.stringify(data));
 	var count = 0;
 	var contentString = ""; //infowindow
 	polys = [];
@@ -408,7 +406,6 @@ function manageRoutes(data){
 					
 					//generateMarkers(data[i].id,data[i].patrolId,pos,data[i].timestamp,i*200);
 					
-					
 							
 					}
 							
@@ -439,19 +436,8 @@ function manageRoutes(data){
 				id: a
 						  
 				});
-				
-				if(poly != ""){
-					console.log("Poly Generated with id: " + poly.id);
-				
-				}
-				else{
-					console.log("Poly is not generated");
-				}
-				
 				polys.push(poly);
 				poly.setMap(map);
-				
-				
 				 
 				
 				
@@ -697,7 +683,7 @@ function generateMarkers(id,patrolId,position,timestamp,timeout){
 	marker = new google.maps.Marker(); 
 	var content = "";
 	
-	console.log("Generating markers...");
+	
 	objMarkers = {
 		id: id,
 		patrolId: patrolId,

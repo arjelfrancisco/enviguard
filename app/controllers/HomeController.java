@@ -35,7 +35,7 @@ public class HomeController extends Controller {
 	
     public Result index() {
     	
-        return ok(index.render("map"));
+        return ok(index.render("home"));
     }
     
     @Inject

@@ -80,4 +80,87 @@ public class PatrollerDaoImpl implements PatrollerDao {
 		}
 	}
 
+
+	@Override
+	public boolean addPatroller(String name) {
+		try {
+			
+			Statement stmt = connection.createStatement();
+			stmt.executeUpdate("INSERT INTO patrollers (patroller_name) VALUES ('" + name + "')");
+			return true;
+			
+			
+		} catch(SQLException e) {
+			throw new RuntimeException(e);
+		
+		}
+		
+		
+	}
+
+
+	@Override
+	public Patroller getByName(String name) {
+		try {
+			Patroller patroller = null;
+			Statement stmt = connection.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT * FROM patrollers where patroller_name ='" + name + "'");
+			
+			while(rs.next()) {
+				
+				int id = rs.getInt("patroller_id");
+				patroller = new Patroller(id,name);
+				
+				
+				
+			}
+			
+			return patroller;
+		} catch(SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+
+	@Override
+	public void updatePatroller(Patroller patroller) {
+		try {
+			
+			Statement stmt = connection.createStatement();
+			stmt.executeUpdate("UPDATE patrollers SET patroller_name = '" + patroller.getName() +
+					"'WHERE patroller_id = " + patroller.getId());
+			
+			
+		} catch(SQLException e) {
+			throw new RuntimeException(e);
+		
+		}
+
+	}
+
+
+	@Override
+	public boolean deletePatroller(int id) {
+		try {
+				
+				Statement stmt = connection.createStatement();
+				int rows = stmt.executeUpdate("DELETE FROM patrollers WHERE patroller_id = " + id);
+			
+				if(rows == 1){
+					
+					return true;
+				}else{
+					
+					return false;
+				}
+			
+		} catch(SQLException e) {
+			throw new RuntimeException(e);
+		
+		}
+		
+	}
+	
+	
+
 }

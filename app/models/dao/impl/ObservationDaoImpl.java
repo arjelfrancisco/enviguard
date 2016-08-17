@@ -31,6 +31,7 @@ import models.Patrol;
 import models.PatrolObservationImage;
 import models.Reports;
 import models.ThreatObservation;
+import models.ThreatType;
 import models.WildlifeObservation;
 import models.dao.ObservationDao;
 
@@ -774,6 +775,7 @@ public class ObservationDaoImpl implements ObservationDao {
 		return null;
 	}
 
-	
+
+
 	
 }

@@ -2,6 +2,11 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
+# An example controller showing a sample home page
+GET     /home                         		controllers.HomeController.index
+# An example controller showing how to write asynchronous code
+GET     /message                    		controllers.AsyncController.message
+
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file              			controllers.Assets.versioned(path="/public", file: Asset)
 
@@ -43,17 +48,31 @@ GET		/getDistinctRegions					controllers.MapController.getDistinctRegions
 GET		/generateReports/:observation/:type		controllers.ReportsController.getReports(observation: String, type: String)
 
 
+
 #navigation
 GET		/patrolRoutes						controllers.MapController.index
 GET		/patrolReports						controllers.ReportsController.index
+GET		/admin								controllers.AdminController.index
 
 #images
 GET		/getImageLists/:id					controllers.MapController.getImageLists(id: Long)
-GET		/showImage/:id				controllers.MapController.showImage(id: Long)
+GET		/showImage/:id						controllers.MapController.showImage(id: Long)
 
+#admin
+GET		/getPatrollers						controllers.AdminController.getPatrollers()
+POST	/addPatrollers						controllers.AdminController.addPatrollers()
+PUT		/updatePatroller/:id				controllers.AdminController.updatePatroller(id: Integer)
+DELETE	/deletePatroller/:id				controllers.AdminController.deletePatroller(id: Integer)
+GET		/getThreatTypes						controllers.AdminController.getThreatTypes()
+POST	/addThreatType						controllers.AdminController.addThreatType()
+PUT		/updateThreat/:id					controllers.AdminController.updateThreat(id: Long)
+DELETE	/deleteThreat/:id					controllers.AdminController.deleteThreat(id: Long)
+GET		/getSpeciesTypes					controllers.AdminController.getSpeciesTypes()
+POST	/addSpeciesType						controllers.AdminController.addSpeciesType()
+PUT		/updateSpecies						controllers.AdminController.updateSpecies()
+DELETE	/deleteSpecies/:id					controllers.AdminController.deleteSpecies(id: Long)
 
 #WS Controller
 POST    /actions/observations/:id/images    controllers.WSController.addObservationImage(id:Long)
 POST    /actions/patrols                    controllers.WSController.addPatrol()
 GET     /actions/syncMobileData      		controllers.WSController.synchronizeMobileData()
-GET     /actions/clearPatrolData         	controllers.WSController.clearPatrolData()

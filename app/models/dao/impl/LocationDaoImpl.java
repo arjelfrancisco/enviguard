@@ -145,7 +145,7 @@ public class LocationDaoImpl implements LocationDao {
 		int id = -1;
 		try {
 			Statement stmt = connection.createStatement();
-			String query = "select distinct patrol_id from patrol_locations";
+			String query = "select distinct patrol_id from cybertrackerdb.patrol_locations";
 			
 			ResultSet rs = stmt.executeQuery(query);
 			
@@ -320,7 +320,7 @@ public class LocationDaoImpl implements LocationDao {
 		String region = "";
 		try {
 			Statement stmt = connection.createStatement();
-			String query = "select distinct region from patrol_locations";
+			String query = "select distinct region from cybertrackerdb.patrol_locations";
 			
 			ResultSet rs = stmt.executeQuery(query);
 			
