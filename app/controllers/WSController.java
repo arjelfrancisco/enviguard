@@ -1,7 +1,9 @@
 package controllers;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
@@ -14,6 +16,7 @@ import models.OtherObservation;
 import models.Patrol;
 import models.PatrolLocation;
 import models.PatrolObservationImage;
+import models.SendPatrolResponse;
 import models.ThreatObservation;
 import models.dao.UtilityDao;
 import models.dao.impl.ImageDaoImpl;
@@ -137,8 +140,13 @@ public class WSController extends Controller {
     		
     		// Observations
     		
+    		List<SendPatrolResponse> sendPatrolResponses = new ArrayList<>();
+    		
     		ArrayNode observationsArrNode = (ArrayNode) jsonRequest.get("observations");
     		for(JsonNode observation : observationsArrNode) {
+    			
+    			Long observationId = observation.get("observationId").asLong();
+    			Long webPatrolObsId = null;
     			ObservationTypeEnum observationType = ObservationTypeEnum.valueOf(observation.get("observationType").asText());
     			Date obsStartDate = CyberTrackerUtilities.retrieveDate(observation.get("startDate").asLong());
     			Date obsEndDate = CyberTrackerUtilities.retrieveDate(observation.get("endDate").asLong());
@@ -154,7 +162,7 @@ public class WSController extends Controller {
     				forestConditionObservation.setPresenceOfRegenerants(observation.get("presenceOfRegenerants").asBoolean());
     				forestConditionObservation.setDensityOfRegenerants(DensityOfRegenerantsEnum.valueOf(observation.get("densityOfRegenerants").asText()));
     				
-    				observationDao.addObservation(forestConditionObservation);
+    				webPatrolObsId = observationDao.addObservation(forestConditionObservation);
     			} else if(observationType == ObservationTypeEnum.WILDLIFE) {
     				WildlifeObservationTypeEnum wildlifeObservationType = WildlifeObservationTypeEnum.valueOf(observation.get("wildlifeObservationType").asText());
     				SpeciesEnum species = SpeciesEnum.valueOf(observation.get("species").asText());
@@ -178,7 +186,7 @@ public class WSController extends Controller {
     						floralDirectWildlifeObservation.setObservedThrougGathering(observation.get("observedThroughGathering").asBoolean());
     						floralDirectWildlifeObservation.setOtherTreeSpeciedObserved(observation.get("otherTreeSpeciedObserved").asText());
     						
-    						observationDao.addObservation(floralDirectWildlifeObservation);
+    						webPatrolObsId = observationDao.addObservation(floralDirectWildlifeObservation);
     					} else {
     						AnimalDirectWildlifeObservation animalDirectWildlifeObservation = new AnimalDirectWildlifeObservation();
     						animalDirectWildlifeObservation.setPatrolId(patrolId);
@@ -197,7 +205,7 @@ public class WSController extends Controller {
     						animalDirectWildlifeObservation.setActionTaken(ActionTakenEnum.valueOf(observation.get("actionTaken").asText()));
     						animalDirectWildlifeObservation.setObservedThroughHunting(observation.get("observedThroughHunting").asBoolean());
     						
-    						observationDao.addObservation(animalDirectWildlifeObservation);
+    						webPatrolObsId = observationDao.addObservation(animalDirectWildlifeObservation);
     					}
     				} else {
     					IndirectWildlifeObservation indirectWildlifeObservation = new IndirectWildlifeObservation();
@@ -212,7 +220,7 @@ public class WSController extends Controller {
     					
     					indirectWildlifeObservation.setEvidences(observation.get("evidences").asText());
     					
-    					observationDao.addObservation(indirectWildlifeObservation);
+    					webPatrolObsId = observationDao.addObservation(indirectWildlifeObservation);
     				}					
     			} else if(observationType == ObservationTypeEnum.THREATS) {
     				ThreatObservation threatObservation = new ThreatObservation();
@@ -228,7 +236,7 @@ public class WSController extends Controller {
     				threatObservation.setResponseToThreat(ResponseToThreatEnum.valueOf(observation.get("responseToThreat").asText()));
     				threatObservation.setNote(observation.get("note").asText());
     				
-    				observationDao.addObservation(threatObservation);
+    				webPatrolObsId = observationDao.addObservation(threatObservation);
     			} else {
     				OtherObservation otherObservation = new OtherObservation();
     				
@@ -239,14 +247,17 @@ public class WSController extends Controller {
     				
     				otherObservation.setNote(observation.get("note").asText());
     				
-    				observationDao.addObservation(otherObservation);
+    				webPatrolObsId = observationDao.addObservation(otherObservation);
     			}
+    			
+    			
+    			sendPatrolResponses.add(new SendPatrolResponse(webPatrolObsId, observationId, observationType));
     		}
     	
     		Logger.info("|ADD PATROL| Add Patrol Successful | Patrol Name: " + name);
-    		return ok("Successful.");
+    		return ok(Json.toJson(sendPatrolResponses));
     	} catch(RuntimeException e) {
-    		System.out.println("|ADD PATROL| Runtime Exception with Message: " + e);
+    		Logger.error("|ADD PATROL| Error with Message: {}", e.getMessage(), e);
     		return internalServerError("Error with message: " + e.getMessage());
     	} 
     }

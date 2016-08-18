@@ -171,7 +171,7 @@ public class ObservationDaoImpl implements ObservationDao {
 			
 			String insertSql = "INSERT INTO patrol_observations (patrol_id, observation_id, observation_type, start_date, end_date) VALUES (?, ?, ?, ?, ?)";
 			
-			PreparedStatement stmt = connection.prepareStatement(insertSql);
+			PreparedStatement stmt = connection.prepareStatement(insertSql, Statement.RETURN_GENERATED_KEYS);
 			stmt.setLong(1, observation.getPatrolId());
 			stmt.setLong(2, observationId);
 			stmt.setString(3, observation.getObservationType().name());
@@ -180,7 +180,10 @@ public class ObservationDaoImpl implements ObservationDao {
 			
 			stmt.executeUpdate();
 			
-			return observationId;
+			ResultSet rs = stmt.getGeneratedKeys();
+			rs.next();
+			
+			return rs.getLong(1);
 			
 		} catch(SQLException e) {
 			throw new RuntimeException(e);

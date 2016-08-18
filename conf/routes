@@ -76,3 +76,4 @@ DELETE	/deleteSpecies/:id					controllers.AdminController.deleteSpecies(id: Long
 POST    /actions/observations/:id/images    controllers.WSController.addObservationImage(id:Long)
 POST    /actions/patrols                    controllers.WSController.addPatrol()
 GET     /actions/syncMobileData      		controllers.WSController.synchronizeMobileData()
+GET     /actions/clearPatrolData            controllers.WSController.clearPatrolData()
