@@ -163,7 +163,7 @@ public class ReportsDaoImpl implements ReportsDao {
 
 					+ "patrols.patrol_name"
 
-					+ " FROM cybertrackerdb.forest_condition_observations forest"
+					+ " FROM forest_condition_observations forest"
 
 					+ " LEFT JOIN patrol_observations obs"
 					+ " on forest.forest_condition_observation_id = obs.observation_id"
