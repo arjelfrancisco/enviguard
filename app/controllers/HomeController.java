@@ -9,8 +9,12 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import com.fasterxml.jackson.databind.JsonNode;
+
 import models.PatrolLocation;
+import models.User;
 import models.dao.impl.LocationDaoImpl;
+import models.dao.impl.UserDaoImpl;
 import controllers.DatabaseConnection.DatabaseUtilities;
 import play.mvc.*;
 import play.libs.Json;
@@ -30,55 +34,55 @@ public class HomeController extends Controller {
      */
 	
 	@Inject
-	public LocationDaoImpl locationDao;
+	public UserDaoImpl userDao;
 	 
 	
     public Result index() {
     	
-        return ok(index.render("home"));
+    	
+    	
+    	if(session("username") == null){
+    		return ok(login.render());
+    	}
+    	else{
+        return ok(index.render("home",session("name"),session("username")));
+    
+    	}
     }
     
-    @Inject
-	private DatabaseUtilities databaseUtilities;
+    public Result logIn(){
+	
+		JsonNode user = request().body().asJson();
+		String username = user.get("username").asText();
+		String password = user.get("password").asText();
+		 
+		User thisUser = new User();
+		thisUser.setUsername(username);
+	 	thisUser.setPassword(password);
+	 
+	 	//User usr = userDao.checkUser(thisUser);
+	 	
+	 	if(userDao.checkUser(thisUser) != null){
+	 		User usr = userDao.checkUser(thisUser);
+	 		
+	 		session("username",usr.getUsername());
+	 		session("name",usr.getName());
+	 		
+	 		return ok(index.render("home",session("name"),session("username")));
+	 		//return ok(session("name"));
+	 	}
+	 	return badRequest("Invalid Username/Password");
+    	
+    }
+    
+    public Result logOut(){
+    	session().clear();
+    	
+    	
+    	return ok(login.render());
+    }
+    
+    
     
    
-    
-	//PlayerDAO myPlayerDAO = new PlayerDAOImpl();
-	
-	public Result getAllStudent() {
-		
-		List<String> lst = new ArrayList<String>();
-		
-		Connection connection = databaseUtilities.getConnection();
-		try {
-			Statement stmt = connection.createStatement();
-			String query = "SELECT * FROM patrol_locations";
-			
-			ResultSet rs = stmt.executeQuery(query);
-			
-			int id =0;
-			int patrolId =0;
-			double lat =0;
-			double lng =0;
-			
-			
-			while(rs.next()){
-				id = rs.getInt("id");
-				patrolId = rs.getInt("patrol_id");
-				lat = rs.getDouble("latitude");
-				lng = rs.getDouble("longtitude");
-				//String timestamp = rs.getString("timestamp");
-				
-				
-				//lst.add(timestamp);
-			}
-			
-			return ok(""+id + patrolId + lat + lng);
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return badRequest("There are no Students in the Database");
-    }
-
 }

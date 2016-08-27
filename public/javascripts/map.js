@@ -39,6 +39,7 @@ var bounds;
 	var large = 0;
 	
 $(function () {
+
 	
 	inputChecker();
 	
@@ -226,11 +227,18 @@ function validateInputs(txtFields){
 		
 			alertContent = " Not all fields have a value ";
 			
+			
 		}
 	}
 	
 	if(alertContent != ""){
-		alert(alertContent);
+		var title = "WARNING";
+			  var body = alertContent;
+			  
+			  $("#warningTitle").html(title);
+			  $("#warningBody").html(body);
+			  
+			  $("#warningModal").modal("show");
 		return false;
 	}
 	
@@ -250,7 +258,7 @@ function populateRegions(){
 		success: function(data) {
 			for(var i=0; i<data.length; i++){
 				
-				drpDwn += '<option value = ' + data[i] + '>'+ data[i] + '</option>';
+				drpDwn += '<option value = "' + data[i] + '">'+ data[i] + '</option>';
 			}
 			drpDwn += '</select>';
 			$("#divRegions").html(drpDwn);
@@ -494,7 +502,15 @@ function getRoutesByPatrollerName() {
 	var name = $("#txtPatrollerName").val();
 	
 	if( name == ""){
-		alert("Please input values on patroller name.");
+		
+	  var title = "WARNING";
+			  var body = "Please input values on patroller name.";
+			  
+			  $("#warningTitle").html(title);
+			  $("#warningBody").html(body);
+			  
+			  $("#warningModal").modal("show");
+	
 	}
 	else{
 	
@@ -519,7 +535,14 @@ function getRoutesByPatrollerName() {
 				
 			},
 			error: function(e) {
-				alert("error in /getRoutesByPatrollerName");
+						var title = "ERROR";
+					  var body ="error in /getRoutesByPatrollerName";
+					  
+					  $("#dangerTitle").html(title);
+					  $("#dangerBody").html(body);
+					  
+					  $("#dangerModal").modal("show");
+				
 			}
 			
 		});
@@ -530,8 +553,16 @@ function getRoutesByPatrollerName() {
 function getRoutesByPatrolName() {
 	var name = $("#txtPatrolName").val();
 	if(name == ""){
-		
-		alert("Please input values on Patrol Name.");
+	
+	  
+	   var title = "WARNING";
+			  var body = "Please input values on Patrol Name.";
+			  
+			  
+			  $("#warningTitle").html(title);
+			  $("#warningBody").html(body);
+			  
+			  $("#warningModal").modal("show");
 	}
 	else{
 		
@@ -551,12 +582,26 @@ function getRoutesByPatrolName() {
 				}
 				
 				else{
-					alert("No Data for: " + name);
+					
+					
+				var title = "WARNING";
+			  var body = "No Data for: " + name;
+			  
+			  $("#warningTitle").html(title);
+			  $("#warningBody").html(body);
+			  
+			  $("#warningModal").modal("show");
 				}
 				
 			},
 			error: function(e) {
-				alert("error in /getRoutesByPatrolName");
+				var title = "ERROR";
+	  var body ="error in /getRoutesByPatrolName";
+	  
+	  $("#dangerTitle").html(title);
+	  $("#dangerBody").html(body);
+	  
+	  $("#dangerModal").modal("show");
 			}
 			
 		});
@@ -579,7 +624,7 @@ function getRoutesByDate() {
 	
 	if(end == "") {
 		
-		alertContent +="Please input values on end date.\n";
+		alertContent +="<br>Please input values on end date.\n";
 	}
 	
 	if(alertContent == ""){
@@ -616,8 +661,17 @@ function getRoutesByDate() {
 		});
 	}
 	else{
+		var title = "WARNING";
+			  var body = alertContent;
+			  
+			  
+			  $("#warningTitle").html(title);
+			  $("#warningBody").html(body);
+			  
+			  $("#warningModal").modal("show");
 		
-		alert(alertContent);
+		
+		
 	}
 }
 
@@ -653,7 +707,15 @@ function getRoutesByRegion(){
 	var region = $("#viewByRegion").val();
 		
 	if(region == ""){
-		alert("Please select value on regions.");
+		
+		var title = "WARNING";
+			  var body = "Please select value on regions.";
+			  
+			  
+			  $("#warningTitle").html(title);
+			  $("#warningBody").html(body);
+			  
+			  $("#warningModal").modal("show");
 	}
 	else{
 	
@@ -810,6 +872,8 @@ function drawTable(id){
 	var htmlContent1 = '<table class="table table-striped">' +
 						'<thead></thead><tbody>';
 	//alert(id);
+	
+	
 	$.ajax({
 		url: '/getPatrolById/'+ 1,
 		type: 'GET',
@@ -817,14 +881,18 @@ function drawTable(id){
 			//alert(JSON.stringify(patrolData));
 			htmlContent1 += '<tr><td>Patrol Name: </td> <td>' + patrolData.patrolName +' </td></tr>';
 			htmlContent1 += '<tr><td>Region: </td> <td>' + patrolRoute[0].region +' </td></tr>';
+			
+			//PATROLLERS TATANGGALIN
+	
+	
 		$.ajax({
 		url: '/getPatrollersByPatrolId/'+ 1,
 		type: 'GET',
 		}).done(function(patrollersData){
 			//alert(JSON.stringify(patrollersData));
-			htmlContent1 += '<tr><td colspan="2"> Patrollers: </td></tr>';
+			//htmlContent1 += '<tr><td colspan="2"> Patrollers: </td></tr>';
 			for(var i=0;i<patrollersData.length;i++){
-			htmlContent1 += '<tr><td colspan="2" ><i class="panel-title-icon fa  fa-flag"></i>'+ patrollersData[i].name +' </td></tr>';
+			//htmlContent1 += '<tr><td colspan="2" ><i class="panel-title-icon fa  fa-flag"></i>'+ patrollersData[i].name +' </td></tr>';
 			}
 			htmlContent1 += '</tbody></table>';
 		$("#info_div").html(htmlContent1);
@@ -832,6 +900,7 @@ function drawTable(id){
 		}).fail(function (jqXHR, textStatus){
 			alert("error");
 		});
+		
 		
 		}).fail(function (jqXHR, textStatus){
 			alert("error");

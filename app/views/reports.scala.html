@@ -1,45 +1,141 @@
-<div class="col-sm-6" style="position:relative; width: 50%;">
+<div class="col-sm-12" style="position:relative;">
 
 	<div class="panel panel-success panel-dark" style="position:relative; width: 100%;" >
 		<div class="panel-heading">
-			<span class="panel-title">Density of Regenerants</span>
+			<span class="panel-title">Forest Condition</span>
 		</div> <!-- / .panel-heading -->
-		<div class="panel-body" style="position:relative;height: 500px; width: 100%;">
-				<div class="graph-container">
-					<div id="reportDensity" class="graph"></div>
+		<div class="panel-body" style="position:relative; width: 100%;">
+				<div class="graph-container col-sm-12">
+					<div id="graphForest" class="graph"></div>
+				</div>
+				<div class ="col-sm-12">
+					<div id="tableForest" >
+						
+						<br><br><br>
+						<div class="table-success col-sm-12" >
+						<div id="forestDTOld">
+							<table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="datatableForest">
+								<thead>
+									<tr>
+										<th>Patrol Name </th>
+										<th>Forest Condtion Type</th>
+										<th>Presence of Regenerants</th>
+										<th>Density of Regenerants</th>
+										<th>Start Date</th>
+										<th>End Date</th>
+										
+									</tr>
+								</thead>
+								<tbody>
+									
+								</tbody>
+							</table>
+						</div>
+							
+							<table id="tblForestCondition" class="display col-sm-12" width="100%"> 
+							
+							
+							</table>
+							
+							
+						</div>
+					
+					</div>
 				</div>
 		</div>
 	</div> <!-- / .panel-body -->
 </div> <!-- / .panel -->
 
-<div class="col-sm-6" style="position:relative; width: 50%;">
 
-	<div class="panel panel-success panel-dark"style="position:relative; width: 100%;" >
+
+<div class="col-sm-12" style="position:relative;">
+
+	<div class="panel panel-success panel-dark" style="position:relative;" >
 		<div class="panel-heading">
-			<span class="panel-title">Presence of Regenerants</span>
+			<span class="panel-title">Threats</span>
 		</div> <!-- / .panel-heading -->
-		<div class="panel-body" style="position:relative;height: 500px; width: 100%;">
+		<div class="panel-body" style="position:relative;">
+				<div class="graph-container col-sm-12">
+					<div id="reportThreat" class="graph"></div>
+				</div>
+				<div class="table-success col-sm-12" >
+					<div id="tableForest" >
+						
+						<br><br><br>
+						<div id="threatDTOld" class="table-success col-sm-12" >
+							<table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="datatableThreat">
+								<thead>
+									<tr>
+										<th>Patrol Name </th>
+										<th>Threat Type</th>
+										<th>Distance</th>
+										<th>Bearing</th>
+										<th>Response to Threat</th>
+										<th>Note</th>
+										<th>Start Date</th>
+										<th>End Date</th>
+										<th>Region</th>
+										
+									</tr>
+								</thead>
+								<tbody>
+									
+								</tbody>
+							</table>
+							
+							
+						</div>
+						
+						<table id="tblThreat" class="display col-sm-12" width="100%"> 
+							
+							
+						</table>
+					
+					</div>
+				</div>
+		</div>
+	</div> <!-- / .panel-body -->
+</div> <!-- / .panel -->
+
+<div class="col-sm-12" style="position:relative;">
+
+	<div class="panel panel-success panel-dark" style="position:relative;" >
+		<div class="panel-heading">
+			<span class="panel-title">Wildlife</span>
+		</div> <!-- / .panel-heading -->
+		<div class="panel-body" style="position:relative;">
 				<div class="graph-container">
+					<div id="reportSpeciesType" class="graph"></div>
+					
+				</div>
+				
+				<div class="table-success col-sm-12">
+				<table id="tblWildlife" class="display col-sm-12" width="100%"> 
+							
+							
+				</table>
+				</div>
+				
+		</div>
+	</div> <!-- / .panel-body -->
+</div> <!-- / .panel -->
+
+<div id="hide">
+
+<div class="col-sm-12" style="position:relative;">
+
+	<div class="panel panel-success panel-dark"style="position:relative;" >
+		<div class="panel-heading">
+			<span class="panel-title">presence</span>
+		</div> <!-- / .panel-heading -->
+		<div class="panel-body" style="position:relative;">
+				<div class="graph-container">
+				
 					<div id="reportPresence" class="graph"></div>
 				</div>
 		</div>
 	</div> <!-- / .panel-body -->
 </div> <!-- / .panel -->
-
-<div class="col-sm-6" style="position:relative; width: 50%;">
-
-	<div class="panel panel-success panel-dark" style="position:relative; width: 100%;" >
-		<div class="panel-heading">
-			<span class="panel-title">Threat Types</span>
-		</div> <!-- / .panel-heading -->
-		<div class="panel-body" style="position:relative;height: 500px; width: 100%;">
-				<div class="graph-container">
-					<div id="reportThreat" class="graph"></div>
-				</div>
-		</div>
-	</div> <!-- / .panel-body -->
-</div> <!-- / .panel -->
-
 
 		
 <div class="col-sm-6" style="position:relative; width: 50%;">
@@ -70,20 +166,7 @@
 	</div> <!-- / .panel-body -->
 </div> <!-- / .panel -->
 
-<div class="col-sm-6" style="position:relative; width: 50%;">
 
-	<div class="panel panel-success panel-dark" style="position:relative; width: 100%;" >
-		<div class="panel-heading">
-			<span class="panel-title">Species Type</span>
-		</div> <!-- / .panel-heading -->
-		<div class="panel-body" style="position:relative;height: 500px; width: 100%;">
-				<div class="graph-container">
-					<div id="reportSpeciesType" class="graph"></div>
-					TEST
-				</div>
-		</div>
-	</div> <!-- / .panel-body -->
-</div> <!-- / .panel -->
 
 
 <div class="col-sm-6" style="position:relative; width: 50%;">
@@ -94,7 +177,38 @@
 		</div> 
 		<div class="panel-body" style="position:relative;height: 500px; width: 100%;">
 				<div class="graph-container">
-					<div id="reportWildlife" class="graph"></div>
+					<script>
+					init.push(function () {
+						Morris.Area({
+							element: 'hero-area',
+							data: [
+								{ period: '2016-01', iphone: 2666, ipad: null, itouch: 2647 },
+								{ period: '2016-02', iphone: 2778, ipad: 2294, itouch: 2441 },
+								{ period: '2016-03', iphone: 4912, ipad: 1969, itouch: 2501 },
+								{ period: '2016-04', iphone: 3767, ipad: 3597, itouch: 5689 },
+								{ period: '2016-05', iphone: 6810, ipad: 1914, itouch: 2293 },
+								{ period: '2016-06', iphone: 5670, ipad: 4293, itouch: 1881 },
+								{ period: '2016-07', iphone: 4820, ipad: 3795, itouch: 1588 },
+								{ period: '2016-08', iphone: 15073, ipad: 5967, itouch: 5175 },
+								{ period: '2016-09', iphone: 10687, ipad: 4460, itouch: 2028 },
+								{ period: '2016-10', iphone: 8432, ipad: 5713, itouch: 1791 }
+							],
+							xkey: 'period',
+							ykeys: ['iphone', 'ipad', 'itouch'],
+							labels: ['iPhone', 'iPad', 'iPod Touch'],
+							hideHover: 'auto',
+							lineColors: PixelAdmin.settings.consts.COLORS,
+							fillOpacity: 0.3,
+							behaveLikeLine: true,
+							lineWidth: 2,
+							pointSize: 4,
+							gridLineColor: '#cfcfcf',
+							resize: true
+						});
+					});
+				</script>
+				<!-- / Javascript -->
+					<div id="hero-area" class="graph"></div>
 					
 				</div>
 		</div>
@@ -103,7 +217,7 @@
 
 
 
-
+</div>
 
 
 

@@ -43,9 +43,14 @@ public class MapController extends Controller {
 	public ObservationDaoImpl observationDao;
 	
 	 public Result index() {
-	    
+		  if(session("username") == null){
+		  		return ok(login.render());
+		  	}
+		  	else{
+		      return ok(index.render("map",session("name"),session("username")));
+		  
+		  	}
 	    	
-	        return ok(index.render("map"));
 	    }
 	 
 	 public Result getImageLists(Long obsId){

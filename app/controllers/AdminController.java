@@ -46,7 +46,14 @@ public class AdminController extends Controller {
 	
   public Result index() {
     	
-        return ok(index.render("admin"));
+  if(session("username") == null){
+  		return ok(login.render());
+  	}
+  	else{
+      return ok(index.render("admin",session("name"),session("username")));
+  
+  	}
+	  
     }
 	  
   public Result getPatrollers(){

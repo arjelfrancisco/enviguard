@@ -320,7 +320,7 @@ public class LocationDaoImpl implements LocationDao {
 		String region = "";
 		try {
 			Statement stmt = connection.createStatement();
-			String query = "select distinct region from patrol_locations";
+			String query = "select distinct region from patrol_locations where region != ''";
 			
 			ResultSet rs = stmt.executeQuery(query);
 			

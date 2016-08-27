@@ -3,7 +3,8 @@
 # ~~~~
 
 # An example controller showing a sample home page
-GET     /home                         		controllers.HomeController.index
+
+GET		/ 									controllers.HomeController.index
 # An example controller showing how to write asynchronous code
 GET     /message                    		controllers.AsyncController.message
 
@@ -45,14 +46,26 @@ GET		/getObservationByObsId/:id			controllers.MapController.getObservationByObsI
 GET		/getDistinctRegions					controllers.MapController.getDistinctRegions
 
 #get reports
-GET		/generateReports/:observation/:type		controllers.ReportsController.getReports(observation: String, type: String)
+GET		/generateReports/:observation/:type	controllers.ReportsController.getReports(observation: String, type: String)
+POST	/getForestConditionReports			controllers.ReportsController.getForestConditionReports()
+POST	/getThreatReport					controllers.ReportsController.getThreatReport()
+POST	/getThreatReports					controllers.ReportsController.getThreatReports()
 
-
+#new reports
+GET		/getThreat							controllers.ReportsController.getThreat()
+GET		/getWildlife						controllers.ReportsController.getWildlifeDatatable()
+GET		/getForestCondition					controllers.ReportsController.getForestConditionDatatable()
 
 #navigation
+GET     /home                         		controllers.HomeController.index
 GET		/patrolRoutes						controllers.MapController.index
 GET		/patrolReports						controllers.ReportsController.index
 GET		/admin								controllers.AdminController.index
+
+#login
+POST		/logIn							controllers.HomeController.logIn()
+GET			/logOut							controllers.HomeController.logOut()
+
 
 #images
 GET		/getImageLists/:id					controllers.MapController.getImageLists(id: Long)
