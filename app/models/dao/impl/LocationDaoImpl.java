@@ -171,6 +171,7 @@ public class LocationDaoImpl implements LocationDao {
 		List<PatrolLocation> locations = new ArrayList<PatrolLocation>();
 		try {
 			Statement stmt = connection.createStatement();
+			/*
 			String query = "SELECT patrol_locations.patrol_location_id, "
 					+ "patrol_locations.patrol_id, patrol_locations.latitude, "
 					+ "patrol_locations.longitude, patrol_locations.date, patrol_locations.region "
@@ -180,7 +181,14 @@ public class LocationDaoImpl implements LocationDao {
 					+ "INNER JOIN patrollers "
 					+ "ON patrollers.patroller_id = patrol_patrollers.patroller_id "
 					+ "WHERE patrollers.patroller_name = '" + name +"'";
-				
+				*/
+			
+			String query = "SELECT pLoc.patrol_location_id, pLoc.patrol_id, pLoc.latitude, pLoc.longitude,"
+					+ " pLoc.date, pLoc.region"
+					+ " FROM patrol_locations pLoc "
+					+ " INNER JOIN patrols patrols"
+					+ " ON patrols.patrol_id = pLoc.patrol_id "
+					+ " WHERE patrols.patroller_name = '" + name + "'";
 			ResultSet rs = stmt.executeQuery(query);
 			
 			

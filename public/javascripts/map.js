@@ -502,7 +502,13 @@ function getRoutesByPatrollerName() {
 				}
 				
 				else{
-					alert("No Data for: " + name);
+					var title = "WARNING";
+					var body = name + "doesn't have patrols or doesn't exists.";
+				  
+					$("#warningTitle").html(title);
+					$("#warningBody").html(body);
+					
+					$("#warningModal").modal("show");
 				}
 				
 			},
