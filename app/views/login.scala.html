@@ -83,8 +83,8 @@
 
 		<!-- Left side -->
 		<div class="signin-info">
-			<a href="index.html" class="logo">
-				<img src="assets/demo/logo-big.png" alt="" style="margin-top: -5px;">&nbsp;
+			<a href="/" class="logo">
+				
 				EnviGuard
 			</a> <!-- / .logo -->
 			<div class="slogan">
@@ -116,9 +116,8 @@
 					<span class="fa fa-lock signin-form-icon"></span>
 				</div> <!-- / Password -->
 
-				<div class="form-actions">
+				<div style="float:right;" class="form-actions">
 					<input type="button" value="SIGN IN" class="btn btn-success btn-rounded" id="btnSignIn">
-					<a href="#" class="forgot-password" id="forgot-password-link">Forgot your password?</a>
 				</div> <!-- / .form-actions -->
 			</form>
 			<!-- / Form -->
@@ -150,6 +149,23 @@
 		<!-- Right side -->
 	</div>
 	<!-- / Container -->
+	
+<!-- Warning -->
+<div id="warningModal" class="modal modal-alert modal-warning fade">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<i class="fa fa-warning"></i>
+			</div>
+			<div id="warningTitle" class="modal-title">Some alert title</div>
+			<div id="warningBody" class="modal-body">Some alert text</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-warning" data-dismiss="modal">OK</button>
+			</div>
+		</div> <!-- / .modal-content -->
+	</div> <!-- / .modal-dialog -->
+</div> <!-- / .modal -->
+<!-- / Warning -->
 
 <!-- Get jQuery from Google CDN -->
 <!--[if !IE]> -->

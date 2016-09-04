@@ -207,9 +207,12 @@ public class ObservationDaoImpl implements ObservationDao {
 				//patrolId = rs.getLong("patrol_id");	
 				
 				
+				
 				long observationId = rs.getLong("observation_id");
-				Date startDate = rs.getDate("start_date");
-				Date endDate = rs.getDate("end_date");
+				Date startDate = rs.getTimestamp("start_date");
+				Date endDate = rs.getTimestamp("end_date");
+				
+				
 				ObservationTypeEnum observationType = ObservationTypeEnum.valueOf(rs.getString("observation_type"));
 				
 				observation.setId(rs.getLong("patrol_observation_id"));

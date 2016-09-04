@@ -71,7 +71,7 @@ public class HomeController extends Controller {
 	 		return ok(index.render("home",session("name"),session("username")));
 	 		//return ok(session("name"));
 	 	}
-	 	return badRequest("Invalid Username/Password");
+	 	return badRequest("Username and Password didn't match.");
     	
     }
     

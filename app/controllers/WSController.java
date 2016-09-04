@@ -184,7 +184,7 @@ public class WSController extends Controller {
     						floralDirectWildlifeObservation.setDiameter(observation.get("diameter").asInt());
     						floralDirectWildlifeObservation.setNoOfTrees(observation.get("noOfTrees").asInt());
     						floralDirectWildlifeObservation.setObservedThrougGathering(observation.get("observedThroughGathering").asBoolean());
-    						floralDirectWildlifeObservation.setOtherTreeSpeciedObserved(observation.get("otherTreeSpeciedObserved").asText());
+    						floralDirectWildlifeObservation.setOtherTreeSpeciedObserved(observation.get("otherTreeSpeciesObserved").asText());
     						
     						webPatrolObsId = observationDao.addObservation(floralDirectWildlifeObservation);
     					} else {

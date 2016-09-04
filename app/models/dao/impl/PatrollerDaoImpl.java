@@ -64,13 +64,15 @@ public class PatrollerDaoImpl implements PatrollerDao {
 		try {
 			List<Patroller> patrollers = new ArrayList<>();
 			Statement stmt = connection.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT * FROM patrollers");
+			ResultSet rs = stmt.executeQuery("SELECT * FROM patrollers WHERE active = 1");
 			
 			while(rs.next()) {
 				
 				int id = rs.getInt("patroller_id");
 				String name = rs.getString("patroller_name");
+				boolean active = rs.getBoolean("active");
 				Patroller patroller = new Patroller(id,name);
+				patroller.setActive(active);
 				patrollers.add(patroller);
 			}
 			
@@ -144,8 +146,10 @@ public class PatrollerDaoImpl implements PatrollerDao {
 		try {
 				
 				Statement stmt = connection.createStatement();
-				int rows = stmt.executeUpdate("DELETE FROM patrollers WHERE patroller_id = " + id);
-			
+				//int rows = stmt.executeUpdate("DELETE FROM patrollers WHERE patroller_id = " + id);
+				int rows = stmt.executeUpdate("UPDATE patrollers SET active=0 WHERE patroller_id = " + id);
+				
+				
 				if(rows == 1){
 					
 					return true;

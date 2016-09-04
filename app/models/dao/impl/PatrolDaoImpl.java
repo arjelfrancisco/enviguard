@@ -58,6 +58,7 @@ public class PatrolDaoImpl implements PatrolDao {
 			long patrolId =0;
 			String patrolName = "";
 			String patrolStatus = "";
+			String patrollerName = "";
 			Date startDate;
 			Date endDate;
 			
@@ -67,6 +68,7 @@ public class PatrolDaoImpl implements PatrolDao {
 				
 				patrolId = rs.getInt("patrol_id");
 				patrolName = rs.getString("patrol_name");
+				patrollerName = rs.getString("patroller_name");
 				
 				startDate = rs.getDate("start_date");
 				endDate = rs.getDate("end_date");
@@ -74,6 +76,8 @@ public class PatrolDaoImpl implements PatrolDao {
 				//patrol = new Patrol(patrolId, patrolName, patrolStatus, startDate, endDate);
 				patrol.setId(patrolId);
 				patrol.setPatrolName(patrolName);
+				patrol.setPatrollerName(patrollerName);
+				
 				//patrol.setPatrolStatus(patrolStatus);
 				patrol.setStartDate(startDate);
 				patrol.setEndDate(endDate);

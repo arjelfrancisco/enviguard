@@ -191,7 +191,7 @@ public class MapController extends Controller {
 		 List<Observation> observations = new ArrayList<Observation>();
 		 
 		 observations = observationDao.getObservationByPatrolId(patrolId);
-
+		 
 		 
 		 /*
 		 for(int i=0; i<observations.size(); i++){

@@ -19,7 +19,7 @@ function populatePatrollers(){
 	patrollerTable += "<thead>";
 	patrollerTable += "<th>Patroller ID</th>";
 	patrollerTable += "<th>Patroller Name</th>";
-	patrollerTable += '<th><div style="float:right" ><button title="Add" class="btn btn-info btn-rounded" id="btnAddPatrollers"><i class="panel-title-icon fa  fa-plus"></i></button></div></th>';
+	patrollerTable += '<th><div style="float:right" ><button title="Add" class="btn btn-info" id="btnAddPatrollers"><i class=" fa  fa-plus"></i></button></div></th>';
 	patrollerTable += "</thead>";
 	patrollerTable += "<tbody>";
 	
@@ -34,7 +34,7 @@ function populatePatrollers(){
 				patrollerTable += "<tr>";
 				patrollerTable += "<td> " + patrollersData[i].id + "</td>" ;
 				patrollerTable += "<td><a href='#' class='name' id='" + patrollersData[i].name + "' data-pk='" + patrollersData[i].id +  "' data-type='text' name ='" + patrollersData[i].id +"' data-placement='right' data-placeholder='Required' data-title='Enter Patroller Name'> " + patrollersData[i].name + "</a></td>" ;
-				patrollerTable += '<td align="right"><button title="Save" class="btn btn-success btn-rounded"onClick="updatePatroller(\'' + patrollersData[i].name + '\')"><i class="panel-title-icon fa  fa-save"></i></button> <button title="Delete" class="btn btn-danger  btn-rounded" onClick="deletePatroller(' + patrollersData[i].id +')"><i class="panel-title-icon fa  fa-trash-o"></i></button></td>';
+				patrollerTable += '<td align="right"><button title="Save" class="btn btn-success"onClick="updatePatroller(\'' + patrollersData[i].name + '\')"><i class="fa  fa-save"></i></button> <button title="Archive" class="btn btn-danger" onClick="deletePatroller(' + patrollersData[i].id +')"><i class="fa  fa-archive"></i></button></td>';
 				patrollerTable += "</tr>";
 				
 			}
@@ -57,10 +57,16 @@ function populatePatrollers(){
 				bootbox.prompt({
 					title: "Please input Patroller Name",
 					callback: function(result) {
-						if (result === null) {
-							//alert("Prompt dismissed");
+						if (result == "" || result == null) {
+							var title = "WARNING";
+									  var body = "Please input patroller name.";
+									  
+									  $("#warningTitle").html(title);
+									  $("#warningBody").html(body);
+									  
+									  $("#warningModal").modal("show");
 						} else {
-							//alert("Hi " + result + "!");
+							
 							var newPatroller = {
 									name: result
 							}
@@ -177,7 +183,7 @@ function updatePatroller(name){
 
 function deletePatroller(id){
 	bootbox.confirm({
-			message: "Are you sure you want to delete this patroller?",
+			message: "Are you sure you want to archive this patroller?",
 			callback: function(result) {
 				if(result){
 					$.ajax({
@@ -185,8 +191,8 @@ function deletePatroller(id){
 						  url: "/deletePatroller/" + id,
 						  success: function(resultData){
 							  //alert(resultData);
-							  var title = "Successfully Deleted!";
-							  var body = "Patroller with a patrol id of " + id + " is deleted.";
+							  var title = "Successfully Archived!";
+							  var body = "Patroller with a patrol id of " + id + " is archived.";
 							  
 							  $("#successTitle").html(title);
 							  $("#successBody").html(body);
@@ -222,7 +228,8 @@ function populateThreats(){
 	patrollerTable += "<thead>";
 	patrollerTable += "<th>Threat ID</th>";
 	patrollerTable += "<th>Threat Name</th>";
-	patrollerTable += '<th><div style="float:right" ><button title="Add" class="btn btn-info btn-rounded" id="btnAddThreat"><i class="panel-title-icon fa  fa-plus"></i></button></div></th>';
+	patrollerTable += '<th><div style="float:right" ><button title="Add" class="btn btn-info " id="btnAddThreat"><i class="fa  fa-plus"></i></button></div></th>';
+	//patrollerTable += '<th><div style="float:right"><a class="btn" href="#"   </div></th>';
 	patrollerTable += "</thead>";
 	patrollerTable += "<tbody>";
 	
@@ -237,7 +244,7 @@ function populateThreats(){
 				patrollerTable += "<tr>";
 				patrollerTable += "<td> " + threatData[i].id + "</td>" ;
 				patrollerTable += "<td><a href='#' class='threatName' id='" + threatData[i].name + "' data-pk='" + threatData[i].id +  "' data-type='text' name ='" + threatData[i].id +"' data-placement='right' data-placeholder='Required' data-title='Enter Threat Name'> " + threatData[i].name + "</a></td>" ;
-				patrollerTable += '<td align="right"><button title="Save" class="btn btn-success btn-rounded" onClick="updateThreat(\'' + threatData[i].name + '\')"><i class="panel-title-icon fa  fa-save"></i></button> <button title="Delete" class="btn btn-danger  btn-rounded" onClick="deleteThreat(' + threatData[i].id +')"><i class="panel-title-icon fa  fa-trash-o"></i></button></td>';
+				patrollerTable += '<td align="right"><button title="Save" class="btn btn-success" onClick="updateThreat(\'' + threatData[i].name + '\')"><i class=" fa  fa-save"></i></button> <button title="Archive" class="btn btn-danger " onClick="deleteThreat(' + threatData[i].id +')"><i class=" fa  fa-archive"></i></button></td>';
 				patrollerTable += "</tr>";
 				
 			}
@@ -259,8 +266,14 @@ function populateThreats(){
 				bootbox.prompt({
 					title: "Please input Threat Name",
 					callback: function(result) {
-						if (result === null) {
-							//alert("Prompt dismissed");
+						if (result == ""  || result == null) {
+							var title = "WARNING";
+									  var body = "Please input threat name.";
+									  
+									  $("#warningTitle").html(title);
+									  $("#warningBody").html(body);
+									  
+									  $("#warningModal").modal("show");
 						} else {
 							//alert("Hi " + result + "!");
 							var newThreat = {
@@ -375,7 +388,7 @@ function updateThreat(name){
 
 function deleteThreat(id){
 	bootbox.confirm({
-			message: "Are you sure you want to delete this threat?",
+			message: "Are you sure you want to archive this threat?",
 			callback: function(result) {
 				if(result){
 					$.ajax({
@@ -383,8 +396,8 @@ function deleteThreat(id){
 						  url: "/deleteThreat/" + id,
 						  success: function(resultData){
 							  //alert(resultData);
-							  var title = "Successfully Deleted!";
-							  var body = "Threat with a threat id of " + id + " is deleted.";
+							  var title = "Successfully Archived!";
+							  var body = "Threat with a threat id of " + id + " is archived.";
 							  
 							  $("#successTitle").html(title);
 							  $("#successBody").html(body);
@@ -420,7 +433,7 @@ function populateSpecies(){
 	speciesTable += "<th>Species ID</th>";
 	speciesTable += "<th>Species Name</th>";
 	speciesTable += "<th>Species Type</th>";
-	speciesTable += '<th><div style="float:right" ><button title="Add" class="btn btn-info btn-rounded" id="btnAddSpecies"><i class="panel-title-icon fa  fa-plus"></i></button></div></th>';
+	speciesTable += '<th><div style="float:right" ><button title="Add" class="btn btn-info" id="btnAddSpecies"><i class=" fa  fa-plus"></i></button></div></th>';
 	speciesTable += "</thead>";
 	speciesTable += "<tbody>";
 	
@@ -437,7 +450,7 @@ function populateSpecies(){
 				speciesTable += "<td id='speciesId" + speciesData[i].id + "'> " + speciesData[i].id + "</td>" ;
 				speciesTable += "<td><a href='#' class='speciesName' id='speciesName" + speciesData[i].name + "' data-type='text' data-placement='right' data-placeholder='Required' data-title='Enter Species Name'> " + speciesData[i].name + "</a></td>" ;
 				speciesTable += "<td><a href='#' class='speciesType' name='test' id='speciesType" + speciesData[i].species + "' data-type='select' data-placement='right' data-placeholder='Required' data-title='Enter Species Type'> " + speciesData[i].species + "</a></td>" ;
-				speciesTable += '<td align="right"><button title="Save" class="btn btn-success btn-rounded" onClick="updateSpecies('+ (i+1) +')"><i class="panel-title-icon fa  fa-save"></i></button> <button title="Delete" class="btn btn-danger  btn-rounded" onClick="deleteSpecies(' + speciesData[i].id +')"><i class="panel-title-icon fa  fa-trash-o"></i></button></td>';
+				speciesTable += '<td align="right"><button title="Save" class="btn btn-success" onClick="updateSpecies('+ (i+1) +')"><i class=" fa  fa-save"></i></button> <button title="Archive" class="btn btn-danger" onClick="deleteSpecies(' + speciesData[i].id +')"><i class=" fa  fa-archive"></i></button></td>';
 				speciesTable += "</tr>";
 				
 			}
@@ -462,7 +475,7 @@ function populateSpecies(){
 				source: [
 					{value: 'BIRD', text: 'BIRD'},
 					{value: 'MAMMAL', text: 'MAMMAL'},
-					{value: 'REPTILE', text: 'REPTILE'},
+					{value: 'REPTILES', text: 'REPTILES'},
 					{value: 'FLORA', text: 'FLORA'}
 				],
 				validate: function(value) {
@@ -478,15 +491,21 @@ function populateSpecies(){
 					message: 	"<div class='container-fluid'>" +
 								"<div class='col-md-6'> Species Name: <input type = 'text' id='txtSpeciesName'/><br><br>" +
 								" Species Type: <select id='slctSpeciesType'></div>" +
-								" <div class='col-md-6'><option value = ''>Select --</option>" +
+								" <div class='col-md-6'><option value = ''>Select </option>" +
 								" <option value = 'BIRD'> BIRD </option>" +
 								" <option value = 'MAMMAL'> MAMMAL </option>" +
-								" <option value = 'REPTILE'> REPTILE </option>" +
+								" <option value = 'REPTILES'> REPTILE </option>" +
 								" <option value = 'FLORA'> FLORA </option></div>" +
 								" <div></select>  ",
 					callback: function(result) {
-						if (result === null) {
-							//alert("Prompt dismissed");
+						if ($("#txtSpeciesName").val() == "" || $("#slctSpeciesType").val() == "" ) {
+							var title = "WARNING";
+									  var body = "Please input species name.";
+									  
+									  $("#warningTitle").html(title);
+									  $("#warningBody").html(body);
+									  
+									  $("#warningModal").modal("show");
 						} else {
 							var name = $("#txtSpeciesName").val();
 							var type = $("#slctSpeciesType").val();
@@ -641,7 +660,7 @@ function updateSpecies(row){
 
 function deleteSpecies(id){
 	bootbox.confirm({
-			message: "Are you sure you want to delete this species?",
+			message: "Are you sure you want to archive this species?",
 			callback: function(result) {
 				if(result){
 					$.ajax({
@@ -649,8 +668,8 @@ function deleteSpecies(id){
 						  url: "/deleteSpecies/" + id ,
 						  success: function(resultData){
 							  //alert(resultData);
-							  var title = "Successfully Deleted!";
-							  var body = "Species with a species id of " + id + " is deleted.";
+							  var title = "Successfully Archived!";
+							  var body = "Species with a species id of " + id + " is archived.";
 							  
 							  $("#successTitle").html(title);
 							  $("#successBody").html(body);

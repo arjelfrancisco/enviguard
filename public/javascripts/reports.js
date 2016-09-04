@@ -36,6 +36,10 @@ function populateCharts(){
 		$.ajax({
 		url: '/generateReports/forest_condition_observations/density_of_regenerants' ,
 		type: 'GET',
+		beforeSend: function (){
+			  
+			  
+		},
 		
 		success: function(reportData) {
 		

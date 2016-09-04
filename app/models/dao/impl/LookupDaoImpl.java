@@ -33,7 +33,7 @@ public class LookupDaoImpl implements LookupDao {
 		try {
 			List<SpeciesType> speciesTypes = new ArrayList<>();
 			Statement stmt = connection.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT * FROM lookup_species_type");
+			ResultSet rs = stmt.executeQuery("SELECT * FROM lookup_species_type WHERE active = 1");
 			
 			while(rs.next()) {
 				SpeciesType speciesType = new SpeciesType();
@@ -54,7 +54,7 @@ public class LookupDaoImpl implements LookupDao {
 		try {
 			List<ThreatType> threatTypes = new ArrayList<>();
 			Statement stmt = connection.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT * FROM lookup_threat_type");
+			ResultSet rs = stmt.executeQuery("SELECT * FROM lookup_threat_type WHERE active = 1");
 			
 			while(rs.next()) {
 				ThreatType threatType = new ThreatType();
@@ -128,7 +128,7 @@ public class LookupDaoImpl implements LookupDao {
 		try {
 			
 			Statement stmt = connection.createStatement();
-			int rows = stmt.executeUpdate("DELETE FROM lookup_threat_type WHERE lookup_threat_type_id = " + id);
+			int rows = stmt.executeUpdate("UPDATE lookup_threat_type SET active=0 WHERE lookup_threat_type_id = " + id);
 		
 			if(rows == 1){
 				
@@ -224,7 +224,7 @@ public class LookupDaoImpl implements LookupDao {
 		try {
 			
 			Statement stmt = connection.createStatement();
-			int rows = stmt.executeUpdate("DELETE FROM lookup_species_type WHERE idlookup_species_type_id = " + id);
+			int rows = stmt.executeUpdate("UPDATE lookup_species_type SET active = 0 WHERE idlookup_species_type_id = " + id);
 		
 			if(rows == 1){
 				

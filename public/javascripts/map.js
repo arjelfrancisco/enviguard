@@ -41,8 +41,6 @@ var bounds;
 $(function () {
 
 	
-	inputChecker();
-	
 	//hide divs first
 	$("#divPatrolId").hide();
 	$("#divPatrollerName").hide();
@@ -139,6 +137,7 @@ window.location.hash = "test";
 	$("#btnView").click(function () {
 		clearMarkers();
 		allRoutes = [];
+		$("#divInfo").hide();
 		
 		for(var i=0; i<polys.length; i++){
 			polys[i].setMap(null);
@@ -205,17 +204,12 @@ window.location.hash = "test";
 		$("#divPatrolStatus").hide();
 		$("#patrolDetails").hide();
 		$("#divRegions").hide();
+		$("#btnView").hide();
+		$("#btnClear").hide();
 	});
 });
 
 
-
-
-function inputChecker(){
-	
-	//$("#txtPatrolID").mask("999999");
-	//$("#txtPatrollerName").mask("");
-}
 
 function validateInputs(txtFields){
 	
@@ -264,8 +258,16 @@ function populateRegions(){
 			$("#divRegions").html(drpDwn);
 			
 		},
-		error: function(e) {
-			alert("error in /getDistinctRegions");
+		error: function(jqXHR, textStatus, errorThrown) {
+			var title = "ERROR";
+			var body ="error in /getDistinctRegions: <br>" + jqXHR.responseText;
+			  
+			$("#dangerTitle").html(title);
+			$("#dangerBody").html(body);
+			
+			$("#dangerModal").modal("show");
+		
+			
 		}
 		
 	});
@@ -283,7 +285,16 @@ function getAllRoutes() {
 		success: function(data) {
 			patrolRoute = [];
 			if(data == ""){
-				alert("No Patrol Routes yet!");
+				
+				var title = "WARNING";
+				var body = "No Patrol Routes yet!";
+				  
+				$("#warningTitle").html(title);
+				$("#warningBody").html(body);
+				
+				$("#warningModal").modal("show");
+				
+				
 			}
 			else{
 				
@@ -294,8 +305,16 @@ function getAllRoutes() {
 			
 			
 		},
-		error: function(e) {
-			alert("error in /getAllRoutes");
+		error: function(jqXHR, textStatus, errorThrown) { 
+			var title = "ERROR";
+			var body ="error in /getAllRoutes: <br>" + jqXHR.responseText;
+			  
+			$("#dangerTitle").html(title);
+			$("#dangerBody").html(body);
+			
+			$("#dangerModal").modal("show");
+			
+
 		}
 		
 	});
@@ -303,63 +322,14 @@ function getAllRoutes() {
 	
 }
 
-//diata ginamit
-/*
-function groupByRegion(routes,region) {
-	var latlng;
-	
-	//a length ng array ng patrol_location
-	for(var a=1; a<2; a++){
-		
-		latlng = {lat: parseFloat(routes[a].lat), lng: parseFloat(routes[a].lng)};
-		
-		geocoder.geocode({'location': latlng}, function(results, status) {
-			
-			if (status === google.maps.GeocoderStatus.OK) {
-				alert(a);
-				if (results[1]) {
-					var address = results[1].address_components;
-					for(var i=0; i<address.length; i++){
-						if(address[i].types[0] == "administrative_area_level_1"){
-							
-							if(region  == address[i].short_name){
-								alert(a);
-								patrolRoute.push(routes[a]);
-								
-							}
-						}
-					}
-					  
-			
-				} else {
-					window.alert('No results found');
-				}
-				
-			} else if (status === google.maps.GeocoderStatus.OVER_QUERY_LIMIT) {    
-            setTimeout(function() {
-                groupByRegion(routes,region);
-            }, 200);
-			} else {
-				window.alert('Geocoder failed due to: ' + status);
-			}
-			
-			
-		});
-		
-	}
-	
-	//alert(JSON.stringify(patrolRoute));
-	manageRoutes(patrolRoute);
-   
-}
-*/
+
 function manageRoutes(data){
 	var count = 0;
 	var contentString = ""; //infowindow
 	polys = [];
 	
 	var flag = true;
-
+	var cntTimeOut = 0;
 	var markerBounds = [];
 	
 	$.ajax({
@@ -394,12 +364,6 @@ function manageRoutes(data){
 							else if(data[i].id > large){
 								large = data[i].id;
 							}
-						
-						
-							
-						
-						
-						
 					//create polylines per ids
 					var pos;
 					pos = {lat: data[i].lat, lng: data[i].lng}
@@ -408,29 +372,23 @@ function manageRoutes(data){
 					pos1 = new google.maps.LatLng(data[i].lat, data[i].lng);
 					allRoutes.push(pos1);
 					
-					//contentString = "Patrol Id: " + data[i].patrolId + "<br>" +
-					//				"TimeStamp: " + data[i].timestamp;
-					
-					
-					//generateMarkers(data[i].id,data[i].patrolId,pos,data[i].timestamp,i*200);
-					
-							
 					}
 							
 				}
-				
-				//alert(small + " - " + large);
 				
 				
 				for(var x=0; x<data.length; x++){
 					
 					if(data[x].id === small || data[x].id === large ){
 					
+						cntTimeOut++;
+						
 						var pos;
 						pos = {lat: data[x].lat, lng: data[x].lng};
 						
+						console.log(JSON.stringify(data.length));
 						
-						generateMarkers(data[x].id,data[x].patrolId,pos,data[x].timestamp,x*200);
+						generateMarkers(data[x].id,data[x].patrolId,pos,data[x].timestamp,cntTimeOut*200);
 					}
 				}
 				
@@ -468,8 +426,15 @@ function manageRoutes(data){
 			map.fitBounds(latlngbounds); 
 			
 		},
-		error: function(e) {
-			alert("error in /getPatrolIds");
+		error: function(jqXHR, textStatus, errorThrown) {
+			var title = "ERROR";
+			var body ="error in /getPatrolIds: <br>" + jqXHR.responseText;
+			  
+			$("#dangerTitle").html(title);
+			$("#dangerBody").html(body);
+			
+			$("#dangerModal").modal("show");
+			
 		}
 		
 	});
@@ -491,8 +456,15 @@ function getRoutesById(){
 			manageRoutes(data);
 			
 		},
-		error: function(e) {
-			alert("error in /getRoutesById");
+		error: function(jqXHR, textStatus, errorThrown) {
+			var title = "ERROR";
+			var body ="error in /getRoutesById: <br>" + jqXHR.responseText;
+			  
+			$("#dangerTitle").html(title);
+			$("#dangerBody").html(body);
+			
+			$("#dangerModal").modal("show");
+			
 		}
 		
 	});
@@ -534,9 +506,9 @@ function getRoutesByPatrollerName() {
 				}
 				
 			},
-			error: function(e) {
+			error: function(jqXHR, textStatus, errorThrown) {
 						var title = "ERROR";
-					  var body ="error in /getRoutesByPatrollerName";
+					  var body ="error in /getRoutesByPatrollerName: <br>" + jqXHR.responseText;
 					  
 					  $("#dangerTitle").html(title);
 					  $("#dangerBody").html(body);
@@ -596,12 +568,12 @@ function getRoutesByPatrolName() {
 			},
 			error: function(e) {
 				var title = "ERROR";
-	  var body ="error in /getRoutesByPatrolName";
-	  
-	  $("#dangerTitle").html(title);
-	  $("#dangerBody").html(body);
-	  
-	  $("#dangerModal").modal("show");
+				  var body ="error in /getRoutesByPatrolName";
+				  
+				  $("#dangerTitle").html(title);
+				  $("#dangerBody").html(body);
+				  
+				  $("#dangerModal").modal("show");
 			}
 			
 		});
@@ -645,7 +617,16 @@ function getRoutesByDate() {
 			success: function(data) {
 				
 				if(data == ""){
-					alert("No Patrol Routes for: " + start + " to " + end);
+					
+					
+					var title = "WARNING";
+					var body ="No Patrol Routes for: " + start + " to " + end
+					  
+					$("#warningTitle").html(title);
+					$("#warningBody").html(body);
+					
+					$("#warningModal").modal("show");
+					
 				}
 				else{
 					patrolRoute = [];
@@ -654,8 +635,15 @@ function getRoutesByDate() {
 					manageRoutes(data);
 				}
 			},
-			error: function(e) {
-				alert("error in /getRoutesByDate");
+			error: function(jqXHR, textStatus, errorThrown) {
+				var title = "ERROR";
+				var body ="error in /getRoutesByDate: <br>" + jqXHR.responseText;
+				  
+				$("#dangerTitle").html(title);
+				$("#dangerBody").html(body);
+				
+				$("#dangerModal").modal("show");
+				
 			}
 			
 		});
@@ -694,8 +682,8 @@ function getRoutesByStatus() {
 			manageRoutes(data);
 			
 		},
-		error: function(e) {
-			alert("error");
+		error: function(jqXHR, textStatus, errorThrown) {
+			alert(jqXHR.responseText);
 		}
 		
 	});
@@ -731,8 +719,16 @@ function getRoutesByRegion(){
 				manageRoutes(data);
 				
 			},
-			error: function(e) {
-				alert("error in /getRoutesByRegion");
+			error: function(jqXHR, textStatus, errorThrown) {
+				
+				var title = "ERROR";
+				var body ="error in /getRoutesByRegion: <br>" + jqXHR.responseText;
+				  
+				$("#dangerTitle").html(title);
+				$("#dangerBody").html(body);
+				
+				$("#dangerModal").modal("show");
+				
 			}
 			
 		});
@@ -752,7 +748,7 @@ function generateMarkers(id,patrolId,position,timestamp,timeout){
 		position: position
 	};
 
-	lstMarkers.push(objMarkers);
+	//lstMarkers.push(objMarkers);
 	
 	if(id == small){
 		content += "Start of Patrol: " + patrolId;
@@ -785,8 +781,12 @@ function generateMarkers(id,patrolId,position,timestamp,timeout){
 			
 
 }
-// add clear poly
+
 function clearMarkers() {
+	
+	
+	
+	
         for (var i = 0; i < markers.length; i++) {
           markers[i].setMap(null);
         }	
@@ -799,6 +799,9 @@ function clearMarkers() {
 function showDetails(markerData){
 
 	$("#divInfo").show();
+	
+	var aTag = $("a[name='infoDiv']");
+	$('html,body').animate({scrollTop: aTag.offset().top},'slow');
 	drawTable(this.id);
 	
 	//generate infowindow
@@ -808,64 +811,6 @@ function showDetails(markerData){
 	  maxWidth: 200
 	});
 	infowindow.open(map,this);
-	
-	/*di na ata ginagamit
-	var htmlContent = "<b>Patrol Details:</b><br>";
-	
-	for(var i=0; i<lstMarkers.length; i++){
-		
-		
-		if(this.id == lstMarkers[i].id){
-			//select sa database ulit
-			//patrols table
-			var id = this.id;
-	
-			//Patrols
-			$.ajax({
-				url: '/getPatrolById/'+ id,
-				type: 'GET',
-			}).done(function(patrolData) {
-					htmlContent = htmlContent + " Patrol Name: " + patrolData.patrolName;
-					htmlContent += " <br>Start Date: " + patrolData.startDate;
-					htmlContent += " <br>End Date: " + patrolData.endDate;
-					
-					//$("#patrolDetails").html(htmlContent);
-					
-					
-					//patrollers
-					$.ajax({
-						url: '/getPatrollersByPatrolId/'+ id,
-						type: 'GET',
-					}).done(function(patrollerData){
-						var htmlPatrollerList= " ";
-						htmlPatrollerList += "<ul> Patrollers:";
-							for(var i=0; i<patrollerData.length; i++){
-								htmlPatrollerList += " <li> " + patrollerData[i].name + " </li>";
-							}
-							htmlPatrollerList += "</ul>"
-							htmlContent += htmlPatrollerList;
-							$("#patrolDetails").html(htmlContent);
-							$("#patrolDetails").show();
-							
-					}).fail(function (jqXHR, textStatus){
-						alert("error");
-					});
-						
-					
-				
-			}).fail(function (jqXHR, textStatus){
-				alert("error");
-			});
-				
-			
-			
-			
-			return;
-		}
-	}
-	*/
-	
-	
 }
 function drawTable(id){
 	
@@ -875,21 +820,19 @@ function drawTable(id){
 	
 	
 	$.ajax({
-		url: '/getPatrolById/'+ 1,
+		url: '/getPatrolById/'+ id,
 		type: 'GET',
 		}).done(function(patrolData){
-			//alert(JSON.stringify(patrolData));
-			htmlContent1 += '<tr><td>Patrol Name: </td> <td>' + patrolData.patrolName +' </td></tr>';
-			htmlContent1 += '<tr><td>Region: </td> <td>' + patrolRoute[0].region +' </td></tr>';
+			htmlContent1 += '<tr><td><b>Patrol Name: <b></td> <td>' + patrolData.patrolName +' </td></tr>';
+			htmlContent1 += '<tr><td><b>Region: <b></td> <td>' + patrolRoute[0].region +' </td></tr>';
+			htmlContent1 += '<tr><td><b>Patroller Name: <b></td> <td>' + patrolData.patrollerName +' </td></tr>';
 			
-			//PATROLLERS TATANGGALIN
 	
 	
 		$.ajax({
-		url: '/getPatrollersByPatrolId/'+ 1,
+		url: '/getPatrollersByPatrolId/'+ id,
 		type: 'GET',
 		}).done(function(patrollersData){
-			//alert(JSON.stringify(patrollersData));
 			//htmlContent1 += '<tr><td colspan="2"> Patrollers: </td></tr>';
 			for(var i=0;i<patrollersData.length;i++){
 			//htmlContent1 += '<tr><td colspan="2" ><i class="panel-title-icon fa  fa-flag"></i>'+ patrollersData[i].name +' </td></tr>';
@@ -897,13 +840,32 @@ function drawTable(id){
 			htmlContent1 += '</tbody></table>';
 		$("#info_div").html(htmlContent1);
 		
+		
 		}).fail(function (jqXHR, textStatus){
-			alert("error");
+			
+			
+			
+			var title = "ERROR";
+			var body ="error in /getPatrollersByPatrolId: <br>" + jqXHR.responseText;
+			  
+			$("#dangerTitle").html(title);
+			$("#dangerBody").html(body);
+			
+			$("#dangerModal").modal("show");
+			
+			
 		});
 		
 		
 		}).fail(function (jqXHR, textStatus){
-			alert("error");
+			
+			var title = "ERROR";
+			var body ="error in /getPatrolById: <br>" + jqXHR.responseText;
+			  
+			$("#dangerTitle").html(title);
+			$("#dangerBody").html(body);
+			
+			$("#dangerModal").modal("show");
 		});
 	
 	
@@ -916,8 +878,8 @@ function drawTable(id){
 	datatable.addColumn('number', ' ');
 	//datatable.addColumn('number', 'Patrol ID');
 	datatable.addColumn('string', 'Observation Type');
-	datatable.addColumn('date', 'Start Date');
-	datatable.addColumn('date', 'End Date');
+	datatable.addColumn('datetime', 'Start Date');
+	datatable.addColumn('datetime', 'End Date');
 	//datatable.addColumn('number', 'ID');
 	
 	
@@ -928,27 +890,35 @@ function drawTable(id){
 		}).done(function(datas){
 			
 			
-			//datas = JSON.parse(datas);
-			//alert(JSON.stringify(datas[0]));
-				//datatable.addRow(datas[0]);
-			 
-				datatable.addRows(datas.length);
+			
+			datatable.addRows(datas.length);
 			  
 			  for(var i=0; i<datas.length; i++){
 				  
 				datatable.setCell(i,0,datas[i].id);
 				datatable.setCell(i,1,datas[i].observationType);
 				
+				
 				var startDate = new Date(datas[i].startDate);
+				
+				
+				
 				datatable.setCell(i,2,startDate);
 				var endDate = new Date(datas[i].endDate);
 				datatable.setCell(i,3,endDate);
+				
 			  }
 
 			table.draw(datatable, { width: '100%', height: '100%'});
 		
 		}).fail(function (jqXHR, textStatus){
-			alert("error");
+			var title = "ERROR";
+			var body ="error in /getObservationsByPatrolId: <br>" + jqXHR.responseText;
+			  
+			$("#dangerTitle").html(title);
+			$("#dangerBody").html(body);
+			
+			$("#dangerModal").modal("show");
 		});
 	
 }
@@ -1068,28 +1038,34 @@ $.ajax({
 					
 					
 				},
-				error: function(e) {
-					alert("error");
+				error: function(jqXHR, textStatus) {
+					var title = "ERROR";
+					var body ="error in /getImageLists: <br>" + jqXHR.responseText;
+					  
+					$("#dangerTitle").html(title);
+					$("#dangerBody").html(body);
+					
+					$("#dangerModal").modal("show");
 				}
 				
 			});
 			
-			
-			
-			//alert(JSON.stringify(datas));
-			
 		
 			
-			//alert(datas.observationType);
 			
 		}).fail(function (jqXHR, textStatus){
-			alert(JSON.stringify(jqXHR));
+			var title = "ERROR";
+			var body ="error in /getObservationByObsId: <br>" + jqXHR.responseText;
+			  
+			$("#dangerTitle").html(title);
+			$("#dangerBody").html(body);
+			
+			$("#dangerModal").modal("show");
 		});
 	
 	
 	$("#myModal").modal("show");
 	
-    //	alert('You selected ' + datatable.getValue(row, 0));
   });
   
 
@@ -1108,9 +1084,6 @@ function initMap() {
     directionsDisplay = new google.maps.DirectionsRenderer;
 
 	geocoder = new google.maps.Geocoder;
-	
-	
-
 	
 }
 
