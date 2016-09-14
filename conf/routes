@@ -33,7 +33,7 @@ GET		/getRoutesByDate/:start/:end		controllers.MapController.getRoutesByDate(sta
 #get routes by status
 GET 	/getRoutesByStatus/:status			controllers.MapController.getRoutesByStatus(status: String)
 #get routes by region
-GET		/getRoutesByRegion/:region			controllers.MapController.getRoutesByRegion(region: String)
+GET		/getRoutesByRegion/:region/:city/:street			controllers.MapController.getRoutesByRegion(region: String, city: String, street: String)
 #get patrol by id
 GET		/getPatrolById/:id					controllers.MapController.getPatrolById(id: Integer)
 #get patroller by patrol id
@@ -44,6 +44,10 @@ GET		/getObservationsByPatrolId/:id		controllers.MapController.getObservationsBy
 GET		/getObservationByObsId/:id			controllers.MapController.getObservationByObsId(id: Long)
 #get distinct regions
 GET		/getDistinctRegions					controllers.MapController.getDistinctRegions
+
+GET		/getPatrols							controllers.MapController.getPatrols()
+GET		/getCity/:region					controllers.MapController.getCity(region: String)
+GET		/getStreet/:region/:city			controllers.MapController.getStreet(region: String, city: String)
 
 #get reports
 GET		/generateReports/:observation/:type	controllers.ReportsController.getReports(observation: String, type: String)

@@ -10,8 +10,14 @@ public class Patrol {
 	private String patrolStatus;
 	private Date startDate;
 	private Date endDate;
+	private double distance;
 	
-	
+	public double getDistance() {
+		return distance;
+	}
+	public void setDistance(double distance) {
+		this.distance = distance;
+	}
 	public String getPatrollerName() {
 		return patrollerName;
 	}

@@ -34,13 +34,15 @@ public class LocationDaoImpl implements LocationDao {
 	@Override
 	public Long addLocation(PatrolLocation patrolLocation) {
 		try {
-			String insertSql = "INSERT INTO patrol_locations (patrol_id, latitude, longitude, date, region) VALUES(?, ?, ?, ?,?)";
+			String insertSql = "INSERT INTO patrol_locations (patrol_id, latitude, longitude, date, region, city, street) VALUES(?, ?, ?, ?, ?, ?, ?)";
 			PreparedStatement stmt = connection.prepareStatement(insertSql, Statement.RETURN_GENERATED_KEYS);
 			stmt.setLong(1, patrolLocation.getPatrolId());
 			stmt.setDouble(2, patrolLocation.getLat());
 			stmt.setDouble(3, patrolLocation.getLng());
 			stmt.setTimestamp(4, CyberTrackerUtilities.convertToTimestampDate(patrolLocation.getTimestamp()));
 			stmt.setString(5, patrolLocation.getRegion());
+			stmt.setString(6, patrolLocation.getCity());
+			stmt.setString(7, patrolLocation.getStreet());
 			stmt.executeUpdate();
 			
 			ResultSet rs = stmt.getGeneratedKeys();
@@ -348,13 +350,31 @@ public class LocationDaoImpl implements LocationDao {
 
 
 	@Override
-	public List<PatrolLocation> getRoutesByRegion(String region) {
+	public List<PatrolLocation> getRoutesByRegion(String region, String city, String street) {
 		locations = new ArrayList<PatrolLocation>();
 		
 		try {
 			Statement stmt = connection.createStatement();
 			String query = "SELECT * FROM patrol_locations where region = '" + region + "'";
+			String cQuery = " AND city =  '" + city +"'";
+			String sQuery = " AND street = '" + street + "'";
+					
 			
+			if(city.equals("none")){
+				cQuery =  " OR city = '" + city + "'"; 
+			}
+			else{
+				
+			}
+			if(street.equals("none")){
+				
+				sQuery = " OR street = '" + street +"'";
+			}
+					
+			query += cQuery + sQuery;
+			
+			System.out.println(street);
+			System.out.println(query);
 			ResultSet rs = stmt.executeQuery(query);
 			
 	
@@ -366,6 +386,8 @@ public class LocationDaoImpl implements LocationDao {
 				double lng = rs.getDouble("longitude");
 				Date timestamp = rs.getDate("date");
 				//String region = rs.getString("region");
+				city = rs.getString("city");
+				street = rs.getString("street");
 				
 				PatrolLocation pLoc = new PatrolLocation();
 				pLoc.setId(id);
@@ -374,6 +396,8 @@ public class LocationDaoImpl implements LocationDao {
 				pLoc.setLng(lng);
 				pLoc.setTimestamp(timestamp);
 				pLoc.setRegion(region);
+				pLoc.setCity(city);
+				pLoc.setStreet(street);
 				
 				locations.add(pLoc);
 			}
@@ -426,6 +450,72 @@ public class LocationDaoImpl implements LocationDao {
 				pLoc.setLng(lng);
 				pLoc.setTimestamp(timestamp);
 				pLoc.setRegion(region);
+				locations.add(pLoc);
+			}
+			
+			//return routes;
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return locations;
+	}
+
+
+	@Override
+	public List<PatrolLocation> getCity(String region) {
+		List<PatrolLocation> locations = new ArrayList<PatrolLocation>();
+		try {
+			Statement stmt = connection.createStatement();
+			String query = "SELECT DISTINCT city FROM patrol_locations WHERE region = " + region ;
+			
+			System.out.println(query);
+			
+			ResultSet rs = stmt.executeQuery(query);
+			 
+			
+			
+			while(rs.next()){
+				
+				
+				String city = rs.getString("city");
+				
+				PatrolLocation pLoc = new PatrolLocation();
+				pLoc.setCity(city);
+				locations.add(pLoc);
+			}
+			
+			//return routes;
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return locations;
+	}
+
+
+	@Override
+	public List<PatrolLocation> getStreet(String region, String city) {
+		List<PatrolLocation> locations = new ArrayList<PatrolLocation>();
+		try {
+			Statement stmt = connection.createStatement();
+			String query = "SELECT DISTINCT street FROM patrol_locations WHERE region = " + region + " AND city = " + city ;
+			
+			
+			
+			ResultSet rs = stmt.executeQuery(query);
+			 
+			
+			
+			while(rs.next()){
+				
+				
+				String street = rs.getString("street");
+				System.out.println(street);
+				PatrolLocation pLoc = new PatrolLocation();
+				pLoc.setStreet(street);
 				locations.add(pLoc);
 			}
 			

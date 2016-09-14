@@ -8,6 +8,14 @@ var selectedRegions = [];
 var directionsService;
 var directionsDisplay;
 
+//for distance
+var distance;
+var totalDistance = 0;
+var objDistance = new Object();
+var lstDistance = [];
+
+
+
 var patrolRoute = [];
 var routeCoordinates = [];
 
@@ -39,6 +47,7 @@ var bounds;
 	var large = 0;
 	
 $(function () {
+
 
 	
 	//hide divs first
@@ -85,31 +94,32 @@ window.location.hash = "test";
 		var category = $("#viewCategory").val();
 		if(category == "all"){
 			$("#btnView").show();
-			$("#btnClear").show();
+			//$("#btnClear").show();
 		}
 		
 		else if(category == "patrolId"){
 			$("#divPatrolId").show();
 			$("#btnView").show();
-			$("#btnClear").show();
+			//$("#btnClear").show();
 		}
 		
 		else if(category == "patrollerName"){
+			populatePatrollerNames();
 			$("#divPatrollerName").show();
 			$("#btnView").show();
-			$("#btnClear").show();
+			//$("#btnClear").show();
 		}
 		
 		else if(category == "date"){
 			$("#divDateRange").show();
 			$("#btnView").show();
-			$("#btnClear").show();
+			//$("#btnClear").show();
 		}
 		
 		else if(category == "status"){
 			$("#divPatrolStatus").show();
 			$("#btnView").show();
-			$("#btnClear").show();
+			//$("#btnClear").show();
 		}
 		
 		else if(category == "region"){
@@ -117,13 +127,14 @@ window.location.hash = "test";
 			populateRegions();
 			$("#divRegions").show();
 			$("#btnView").show();
-			$("#btnClear").show();
+			//$("#btnClear").show();
 			
 		}
 		else if(category == "patrolName"){
+			populatePatrols();
 			$("#divPatrolName").show();
 			$("#btnView").show();
-			$("#btnClear").show();
+			//$("#btnClear").show();
 		}
 		else{
 			
@@ -241,10 +252,12 @@ function validateInputs(txtFields){
 	return true;
 	
 }
+ 
+ 
 
 function populateRegions(){
-	var drpDwn = 'Regions: <select id="viewByRegion"  style="width: 100%;" >' +
-					'<option value = "">-- Select --</option>';
+	var drpDwn = '<select id="viewByRegion" class="btn btn-success" >' +
+					'<option value = "none">-- Select Region --</option>';
 		$.ajax({
 		url: '/getDistinctRegions',
 		type: 'GET',
@@ -255,12 +268,176 @@ function populateRegions(){
 				drpDwn += '<option value = "' + data[i] + '">'+ data[i] + '</option>';
 			}
 			drpDwn += '</select>';
+			
 			$("#divRegions").html(drpDwn);
+			
+			$("#viewByRegion").change( function() {
+				
+			
+				var region = $("#viewByRegion").val();
+				
+				if(region == "none"){
+					$("#divStreet").hide();
+					$("#divCity").hide();
+				}
+				else{
+					$("#divCity").show();
+					$("#divStreet").hide();
+					
+					var drpDwnCity = '<select id="viewByCity" class="btn btn-info" >' +
+						'<option value = "none">-- Select City --</option>';
+						
+						
+						
+					$.ajax({
+					url: '/getCity/"' + region + '"' ,
+					type: 'GET',
+					
+					success: function(data) {
+						for(var i=0; i<data.length; i++){
+							//alert(JSON.stringify(data));
+							drpDwnCity += '<option value = "' + data[i].city + '">'+ data[i].city + '</option>';
+						}
+						drpDwnCity += '</select>';
+						
+						$("#divCity").html(drpDwnCity);
+						
+						
+						$("#viewByCity").change( function() {
+							
+							var city =  $("#viewByCity").val();
+							
+							if(city == "none"){
+								$("#divStreet").hide();
+								
+							}else{
+								
+								$("#divStreet").show();
+								var drpDwnStreet = '<select id="viewByStreet" class="btn btn-warning" >' +
+												'<option value = "none">-- Select Street --</option>';
+								
+								$.ajax({
+									url: '/getStreet/"' + region + '"/"' + city + '"' ,
+									type: 'GET',
+									
+									success: function(streetData) {
+										
+										for(var i=0; i<streetData.length; i++){
+											//alert(JSON.stringify(data));
+											drpDwnStreet += '<option value = "' + streetData[i].street + '">'+ streetData[i].street + '</option>';
+										}
+										drpDwnStreet += '</select>';
+										$("#divStreet").html(drpDwnStreet);
+										
+									},
+									error: function(jqXHR, textStatus, errorThrown) {
+										var title = "ERROR";
+										var body ="error in /getStreet <br>" + jqXHR.responseText;
+										  
+										$("#dangerTitle").html(title);
+										$("#dangerBody").html(body);
+										
+										$("#dangerModal").modal("show");
+									
+										
+									}
+										
+									});
+							
+							}								
+							});
+						
+						
+						
+						},
+					error: function(jqXHR, textStatus, errorThrown) {
+						var title = "ERROR";
+						var body ="error in /getCity <br>" + jqXHR.responseText;
+						  
+						$("#dangerTitle").html(title);
+						$("#dangerBody").html(body);
+						
+						$("#dangerModal").modal("show");
+					
+						
+					}
+						
+					});
+				}
+				
+				});
+			
 			
 		},
 		error: function(jqXHR, textStatus, errorThrown) {
 			var title = "ERROR";
 			var body ="error in /getDistinctRegions: <br>" + jqXHR.responseText;
+			  
+			$("#dangerTitle").html(title);
+			$("#dangerBody").html(body);
+			
+			$("#dangerModal").modal("show");
+		
+			
+		}
+		
+	});
+	
+}
+
+function populatePatrollerNames(){
+	
+	var drpDwn = '<select id="viewByPatroller" class="btn btn-success" >' +
+					'<option value = "">-- Select Patroller --</option>';
+		$.ajax({
+		url: '/getPatrollers',
+		type: 'GET',
+		
+		success: function(data) {
+			for(var i=0; i<data.length; i++){
+				
+				drpDwn += '<option value = "' + data[i].name + '">'+ data[i].name + '</option>';
+			}
+			drpDwn += '</select>';
+			$("#divPatrollerName").html(drpDwn);
+			
+		},
+		error: function(jqXHR, textStatus, errorThrown) {
+			var title = "ERROR";
+			var body ="error in /getPatrollers: <br>" + jqXHR.responseText;
+			  
+			$("#dangerTitle").html(title);
+			$("#dangerBody").html(body);
+			
+			$("#dangerModal").modal("show");
+		
+			
+		}
+		
+	});
+	
+}
+
+function populatePatrols(){
+	
+	var drpDwn = '<select id="viewByPatrols" class="btn btn-success" >' +
+					'<option value = "">-- Select Patrol --</option>';
+		$.ajax({
+		url: '/getPatrols',
+		type: 'GET',
+		
+		success: function(data) {
+			for(var i=0; i<data.length; i++){
+				
+				drpDwn += '<option value = "' + data[i].patrolName + '">'+ data[i].patrolName + '</option>';
+			}
+			drpDwn += '</select>';
+			$("#divPatrolName").html(drpDwn);
+			
+		},
+		error: function(jqXHR, textStatus, errorThrown) {
+			var title = "ERROR";
+			var body ="error in /getPatrollers: <br>" + jqXHR.responseText;
 			  
 			$("#dangerTitle").html(title);
 			$("#dangerBody").html(body);
@@ -399,7 +576,7 @@ function manageRoutes(data){
 				strokeOpacity: 0.8,
 				strokeWeight: 4,
 				path: routeCoordinates,
-				id: a
+				id: patrolIds[a]
 						  
 				});
 				polys.push(poly);
@@ -408,7 +585,9 @@ function manageRoutes(data){
 				
 				
 				markerBounds.push(routeCoordinates);
-					
+
+				
+				
 				routeCoordinates = [];
 				
 			
@@ -471,7 +650,7 @@ function getRoutesById(){
 }
 
 function getRoutesByPatrollerName() {
-	var name = $("#txtPatrollerName").val();
+	var name = $("#viewByPatroller").val();
 	
 	if( name == ""){
 		
@@ -529,7 +708,7 @@ function getRoutesByPatrollerName() {
 }
 
 function getRoutesByPatrolName() {
-	var name = $("#txtPatrolName").val();
+	var name = $("#viewByPatrols").val();
 	if(name == ""){
 	
 	  
@@ -699,6 +878,10 @@ function getRoutesByStatus() {
 function getRoutesByRegion(){
 	
 	var region = $("#viewByRegion").val();
+	var city = "";
+	city = $("#viewByCity").val();
+	var street = "";
+	street = $("#viewByStreet").val();
 		
 	if(region == ""){
 		
@@ -714,7 +897,7 @@ function getRoutesByRegion(){
 	else{
 	
 		$.ajax({
-			url: '/getRoutesByRegion/'+ region,
+			url: '/getRoutesByRegion/'+ region + '/' + city + '/' + street ,
 			type: 'GET',
 			
 			success: function(data) {
@@ -805,6 +988,10 @@ function clearMarkers() {
 function showDetails(markerData){
 
 	$("#divInfo").show();
+	//generate distance
+	
+	//generate distance
+	
 	
 	var aTag = $("a[name='infoDiv']");
 	$('html,body').animate({scrollTop: aTag.offset().top},'slow');
@@ -832,6 +1019,7 @@ function drawTable(id){
 			htmlContent1 += '<tr><td><b>Patrol Name: <b></td> <td>' + patrolData.patrolName +' </td></tr>';
 			htmlContent1 += '<tr><td><b>Region: <b></td> <td>' + patrolRoute[0].region +' </td></tr>';
 			htmlContent1 += '<tr><td><b>Patroller Name: <b></td> <td>' + patrolData.patrollerName +' </td></tr>';
+			htmlContent1 += '<tr><td><b>Distance Covered: <b></td><td>' + patrolData.distance + ' KM </td></tr>';
 			
 	
 	
@@ -1088,6 +1276,7 @@ function initMap() {
 
 	directionsService = new google.maps.DirectionsService;
     directionsDisplay = new google.maps.DirectionsRenderer;
+	distance = new google.maps.DistanceMatrixService;
 
 	geocoder = new google.maps.Geocoder;
 	

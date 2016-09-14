@@ -3,119 +3,106 @@
 	
 	
 	<div class="row" >
-	<div class="col-md-9 col-xs-12" style="position:relative;">
+	<div class="col-md-12 col-xs-12" style="position:relative;">
 
 		<div class="panel panel-success panel-dark" style="position:relative; width: 100%;" >
 		<div class="panel-heading">
 		<span class="panel-title"><i class="panel-title-icon fa fa-map-marker"></i>Patrol Routes</span>
 		</div> <!-- / .panel-heading -->
-		<div class="panel-body" style="position:relative;height: 500px; width: 100%;">
+		
+		
+		<div class="panel-body col-md-12" style="position:relative;height: 500px;">
 			
-			<div class="widget-maps" id="map" style="position:relative;height: 100%; width: 100%;">
-			
+			<div class="col-md-12">
+				
+				<div class="col-md-3">
+				Filter Type:
+				<select id="viewCategory" class="btn btn-success">
+				<option value = "">-- Select a Filter --</option>
+				<option value = "all"> All </option>
+				<option value = "patrollerName"> Patroller Name </option>
+				<option value = "patrolName"> Patrol Name </option>
+				<option value = "date"> Date(range) </option> 
+				<option value = "region"> Regions </option>
+				
+				<!--<option value = "patrolId"> Patrol ID </option>-->
+				<!--<option value = "status"> Status </option>-->
+				<!--<option value = "teamId"> Team ID </option>-->
+				</select>
+				</div>
+				
+				<div class="col-md-8 ">
+				<div id="divPatrolId">
+				Patrol ID: 
+				<input type = "text" id="txtPatrolID"/>
+				</div>
+				
+				<div id="divPatrollerName">
+				</div>
+				
+				<div id="divDateRange">
+					<script>
+									init.push(function () {
+										var options = {
+											todayBtn: "linked",
+											orientation: $('body').hasClass('right-to-left') ? "auto right" : 'auto auto'
+										}
+										$('#bs-datepicker-example').datepicker(options);
+
+										$('#bs-datepicker-component').datepicker();
+
+										var options2 = {
+											orientation: $('body').hasClass('right-to-left') ? "auto right" : 'auto auto'
+										}
+										$('#bs-datepicker-range').datepicker(options2);
+
+										$('#bs-datepicker-inline').datepicker();
+									});
+					</script>
+
+					
+					<div class="input-daterange input-group" id="bs-datepicker-range">
+					<input id="txtDateFrom" type="text" class="input-sm form-control" name="start" placeholder="Start date">
+					<span class="input-group-addon">to</span>
+					<input id="txtDateTo" type="text" class="input-sm form-control" name="end" placeholder="End date">
+					</div>
+				</div>
+				
+				<div id="divPatrolStatus">
+				<select id="viewPatrolStatus" style="width: 40%;">
+				<option value = "">-- Select --</option>
+				<option value = "ongoing"> On Going </option>
+				<option value = "sent"> Sent</option>
+				</select>
+				</div>
+				
+				
+				<div class="col-md-9">
+				<div class="col-md-4" id="divRegions"></div>
+				<div class="col-md-4" id="divCity"></div>
+				<div class="col-md-4" id="divStreet"></div>
+ 				
+				<div id="divPatrolName"></div>
+				
+				</div>
+				</div>
+				
+				<div class="col-md-1">
+				<input style="float: right;"  class="btn btn-success btn-rounded" type = "button" id="btnClear" value="Clear"/>
+				
+				<input  class="btn btn-success btn-rounded" type = "button" id="btnView" value="View"/>
+				
+				</div>
 			</div>
-			</div> <!-- / .panel-body -->
+			
+			<br><br><br>
+			
+			<div class="col-md-12" style="position:relative;height: 85%;">
+			<div class="widget-maps" id="map" style="position:relative;height: 100%; width: 100%;"></div>
+			</div>
+		</div> <!-- / .panel-body -->
 		</div> <!-- / .panel -->
 		
-	</div>
-
-	<div class="col-md-3 col-xs-12" style="position:relative;">
-	<div class="panel panel-success panel-dark" style="position:relative;">
-		<div class="panel-heading">
-		<span class="panel-title"><i class="panel-title-icon fa fa-filter"></i>Filters</span>
-		</div> <!-- / .panel-heading -->
-		<div class="panel-body" style="position:relative;height: 500px; width: 100%;">
-			
-			<div class="widget-maps" id="" style="position:relative;height: 100%; width: 100%;">
-			
-			
-		<h5>View By:</h5>
-		<select id="viewCategory" class="btn btn-success" style="width:100%;">
-		<option value = "">-- Select a Filter --</option>
-		<option value = "all"> All </option>
-		<option value = "patrollerName"> Patroller Name </option>
-		<option value = "patrolName"> Patrol Name </option>
-		<option value = "date"> Date(range) </option> 
-		<option value = "region"> Regions </option>
-		
-		
-		<!--<option value = "patrolId"> Patrol ID </option>-->
-		<!--<option value = "status"> Status </option>-->
-		<!--<option value = "teamId"> Team ID </option>-->
-		</select><br><br>
-		
-		
-		<div id="divPatrolId">
-		Patrol ID: 
-		<input type = "text" id="txtPatrolID"/><br>
-		</div>
-		
-		<div id="divPatrollerName">
-		Patroller Name: 
-		<input type = "text" id="txtPatrollerName"/><br>
-		</div>
-		
-		<div id="divDateRange">
-		<script>
-						init.push(function () {
-							var options = {
-								todayBtn: "linked",
-								orientation: $('body').hasClass('right-to-left') ? "auto right" : 'auto auto'
-							}
-							$('#bs-datepicker-example').datepicker(options);
-
-							$('#bs-datepicker-component').datepicker();
-
-							var options2 = {
-								orientation: $('body').hasClass('right-to-left') ? "auto right" : 'auto auto'
-							}
-							$('#bs-datepicker-range').datepicker(options2);
-
-							$('#bs-datepicker-inline').datepicker();
-						});
-		</script>
-
-		<div class="input-daterange input-group" id="bs-datepicker-range">
-		<input id="txtDateFrom" type="text" class="input-sm form-control" name="start" placeholder="Start date">
-		<span class="input-group-addon">to</span>
-		<input id="txtDateTo" type="text" class="input-sm form-control" name="end" placeholder="End date">
-		</div>
-
-		
-		
-		</div>
-		
-		<div id="divPatrolStatus">
-		<select id="viewPatrolStatus" style="width: 40%;">
-		<option value = "">-- Select --</option>
-		<option value = "ongoing"> On Going </option>
-		<option value = "sent"> Sent</option>
-		</select>
-		</div>
-		
-		<div id="divRegions">	
-		</div>
-		
-		<div id="divPatrolName">
-		Patrol Name: 
-		<input type = "text" id="txtPatrolName"/><br>
-		
-		</div>
-		
-		
-		<br><br>
-		<input style="float: right;"  class="btn btn-success btn-rounded" type = "button" id="btnClear" value="Clear"/>
-		
-		<input  class="btn btn-success btn-rounded" type = "button" id="btnView" value="View"/>
-		
-		<input id="btnTest" type="button" value="TEST" />
-		<div id="patrolDetails">
-		
-		</div>
-		</div>
-				
-			</div> <!-- / .panel-body -->
-	</div> <!-- / .panel -->
 	</div>
 </div>
 			
@@ -127,7 +114,7 @@
 			<div class="panel-heading">
 			<span class="panel-title"><i class="panel-title-icon fa  fa-info-circle"></i>Informations</span>
 			</div> <!-- / .panel-heading -->
-			<div class="panel-body" style="position:relative;height: 500px; width: 100%;">
+			<div class="panel-body" style="position:relative;width: 100%;">
 			
 			<div class="col-md-3 col-xs-12">
 			<div class="" style="position:relative;">

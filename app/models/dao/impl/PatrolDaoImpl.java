@@ -5,7 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -90,6 +92,48 @@ public class PatrolDaoImpl implements PatrolDao {
 			e.printStackTrace();
 		}
 		return patrol;
+	}
+
+	@Override
+	public List<Patrol> getPatrols() {
+		List<Patrol> patrols = new ArrayList<Patrol>();
+		
+		try {
+			Statement stmt = connection.createStatement();
+			String query = "SELECT DISTINCT patrol_name FROM patrols";
+			
+			ResultSet rs = stmt.executeQuery(query);
+			
+			//int id =0;
+			long patrolId =0;
+			String patrolName = "";
+			String patrolStatus = "";
+			String patrollerName = "";
+			Date startDate;
+			Date endDate;
+			
+			
+			while(rs.next()){
+				Patrol patrol = new Patrol();
+				
+				patrolName = rs.getString("patrol_name");
+				
+				patrol.setPatrolName(patrolName);
+				
+				patrols.add(patrol);
+			}
+			
+			//return routes;
+			return patrols;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		
+		
+		
+		
+		return null;
 	}
 
 }

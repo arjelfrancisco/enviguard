@@ -16,8 +16,9 @@ public interface LocationDao {
 	public List<PatrolLocation> getRoutesByStatus(String status);
 	public Long addLocation(PatrolLocation patrolLocation);
 	public List<String> getDistinctRegions();
-	public List<PatrolLocation> getRoutesByRegion(String region);
+	public List<PatrolLocation> getRoutesByRegion(String region, String city, String street);
 	public List<PatrolLocation> getRoutesByPatrolName(String name);
-	
+	public List<PatrolLocation> getCity(String region);
+	public List<PatrolLocation> getStreet(String region, String city);
 	
 }
